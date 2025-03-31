@@ -1,11 +1,9 @@
-
 <template>
-<p>sakhefkhschi</p>
+  <div class="app">
+    <p>App</p>
+  </div>
 </template>
 
-<script>
+<script lang="ts">
+export default {};
 </script>
-
-<style>
-
-</style>
