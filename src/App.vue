@@ -1,30 +1,51 @@
 <template>
   <div class="app">
-    <p>App</p>
-    <InputText
-      v-model="value"
-      type="text" 
-    />
-    <Button>jr ksd</Button>
+    <div>
+      <SideBar 
+        v-if="menuOpen"
+      />
+    </div>
+    <div class="content">
+      <FAheader 
+        @clickOnMenu="toggleMenu()"
+      />
+      <FAHero />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import Button from "primevue/button";
-import InputText from 'primevue/inputtext';
-import { ref } from "vue";
-export default {
+import { defineComponent, ref } from 'vue';
+import FAheader from "./components/FAheader.vue";
+import SideBar from "./components/Sidebar.vue";
+import FAHero from './components/FAHero.vue';
+
+export default defineComponent({
   components: {
-    // eslint-disable-next-line vue/no-reserved-component-names
-    Button,
-    InputText,
+    FAheader,
+    SideBar,
+    FAHero,
   },
   setup() {
-    const value = ref('');
-
+    const menuOpen = ref(false);
+    const toggleMenu = () => {
+      menuOpen.value = !menuOpen.value;
+    };
+    
+    
     return {
-      value,
+      menuOpen,
+      toggleMenu,
     };
   },
-};
+});
 </script>
+
+<style>
+.app{
+  display: flex;
+}
+.content{
+  width: 100%;
+}
+</style>
