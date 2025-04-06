@@ -1,8 +1,9 @@
 <template>
   <button class="btn">
-    <div class="img-wrapper">
-      <i :class="src" />
-    </div>
+    <i 
+      class="pi"
+      :class="icon"
+    />
   </button>
 </template>
 
@@ -11,7 +12,7 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   props: {
-    src: {
+    icon: {
       type: String,
       required: true,
     },
@@ -20,7 +21,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.img-wrapper i{
+i{
   width: 30px;
   height: 30px;
   display: flex;

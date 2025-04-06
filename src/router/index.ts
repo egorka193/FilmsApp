@@ -6,6 +6,7 @@ const router = createRouter({
     {
       name: 'Home',
       path: '/home',
+      alias: ['/'],
       component: () => import('@/components/views/HomePade.vue'),
     },
     {

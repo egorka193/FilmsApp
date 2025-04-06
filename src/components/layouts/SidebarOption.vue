@@ -7,7 +7,7 @@
       class="pi"
       :class="icon"
     />
-    <p>{{ text }}</p>
+    <span>{{ text }}</span>
   </RouterLink>
 </template>
 

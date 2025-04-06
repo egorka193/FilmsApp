@@ -4,7 +4,8 @@ import PrimeVue from 'primevue/config';
 import Aura from '@primeuix/themes/aura';
 import App from './App.vue';
 import router from './router';
-import { store, key } from './components/store/store.ts';
+import { store, key } from './store/store.ts';
+import { DARK_THEME_CLASS } from './constants.ts';
 
 const app = createApp(App);
 app.use(store, key);
@@ -13,7 +14,7 @@ app.use(PrimeVue, {
   theme: {
     preset: Aura,
     options: {
-      darkModeSelector: '.my-app-dark',
+      darkModeSelector: `.${DARK_THEME_CLASS}`,
       cssLayer: false,
     },
   },

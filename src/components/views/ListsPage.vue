@@ -3,17 +3,17 @@
     <h2 class="lists__name">
       Favorites Movie
     </h2>
-    <RouterLink to="/lists/list">
+    <RouterLink :to="{ name: 'List' }">
       <div class="list">
         Name of list
       </div>
     </RouterLink>
-    <RouterLink to="/lists/list">
+    <RouterLink :to="{ name: 'List' }">
       <div class="list">
         Name of list
       </div>
     </RouterLink>
-    <RouterLink to="/lists/list">
+    <RouterLink :to="{ name: 'List' }">
       <div class="list">
         Name of list
       </div>
@@ -25,7 +25,10 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
- 
+  setup() {
+    return{
+    };
+  },
 });
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="film-card">
     <img
       class="img"
       src="/src/assets/img/logo.png"

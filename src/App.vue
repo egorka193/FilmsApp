@@ -9,22 +9,22 @@
       <FAheader 
         @clickOnMenu="toggleMenu()"
       />
-      <FAHero />
+      <ContentContainer />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import FAheader from "./components/layouts/Header.vue";
-import SideBar from "./components/layouts/Sidebar.vue";
-import FAHero from './components/layouts/ContentContainer.vue';
+import FAheader from './components/layouts/Header.vue';
+import SideBar from './components/layouts/Sidebar.vue';
+import ContentContainer from './components/layouts/ContentContainer.vue';
 
 export default defineComponent({
   components: {
     FAheader,
     SideBar,
-    FAHero,
+    ContentContainer,
   },
   setup() {
     const menuOpen = ref(false);
@@ -41,7 +41,7 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style scoped>
 .app{
   display: flex;
 }

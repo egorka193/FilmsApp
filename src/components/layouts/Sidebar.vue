@@ -41,12 +41,4 @@ export default {
   width: 300px;
   height: 100vh;
 }
-/* .router-link-active{
-  text-decoration: none;
-  color: black;
-}
-.router-link-exact-active{
-  text-decoration: none;
-  color: black;
-} */
 </style>

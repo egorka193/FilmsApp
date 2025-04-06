@@ -1,4 +1,4 @@
-<!-- eslint-disable vue/multi-word-component-names -->
+
 <template>
   <div class="header">
     <div>
@@ -9,12 +9,12 @@
     </div>
     <div class="header__buttons">
       <FAButton
-        src="pi pi-palette"
+        icon="pi-palette"
         @click="toggleDarkMode()"
       />
-      <RouterLink to="/profile">
+      <RouterLink :to="{ name: 'Profile' }">
         <FAButton
-          src="pi pi-user"
+          icon="pi-user"
         />
       </RouterLink>
     </div>
@@ -25,6 +25,7 @@
 import { defineComponent } from 'vue';
 import FAButton from '../shared/FAButton.vue';
 import FABurgerButton from '../shared/FABurgerButton.vue';
+import { DARK_THEME_CLASS } from '@/constants';
 
 export default defineComponent({
   components: {
@@ -34,7 +35,7 @@ export default defineComponent({
   emits: ['clickOnMenu'],
   setup(props, ctx) {
     const toggleDarkMode = () => {
-      document.documentElement.classList.toggle('my-app-dark');
+      document.documentElement.classList.toggle(DARK_THEME_CLASS);
     };
     const clickOnMenu = () => {
       ctx.emit('clickOnMenu');

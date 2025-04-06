@@ -1,12 +1,10 @@
 <template>
-  <div class="burger-button">
-    <button 
-      class="btn"
-      @click="handleClick()"
-    >
-      <i class="pi pi-bars" />
-    </button>
-  </div>
+  <button 
+    class="btn"
+    @click="handleClick()"
+  >
+    <i class="pi pi-bars" />
+  </button>
 </template>
 
 <script lang="ts">
@@ -33,9 +31,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.burger-button{
-  display: block;
-}
 .pi-bars{
   width: 30px;
   height: 30px;
