@@ -1,10 +1,8 @@
 <template>
   <div class="app">
-    <div>
-      <SideBar 
-        v-if="menuOpen"
-      />
-    </div>
+    <SideBar 
+      v-if="menuOpen"
+    />
     <div class="content">
       <FAheader 
         @clickOnMenu="toggleMenu()"
