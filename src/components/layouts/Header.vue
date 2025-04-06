@@ -23,8 +23,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import FAButton from './FAButton.vue';
-import FABurgerButton from './FABurgerButton.vue';
+import FAButton from '../shared/FAButton.vue';
+import FABurgerButton from '../shared/FABurgerButton.vue';
 
 export default defineComponent({
   components: {

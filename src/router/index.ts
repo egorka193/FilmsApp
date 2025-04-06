@@ -6,31 +6,31 @@ const router = createRouter({
     {
       name: 'Home',
       path: '/home',
-      component: () => import('@/components/FAHomePade.vue'),
+      component: () => import('@/components/views/HomePade.vue'),
     },
     {
       name: 'Search',
       path: '/search',
-      component: () => import('@/components/FASearch.vue'),
+      component: () => import('@/components/views/SearchPage.vue'),
     },
     {
       name: 'Lists',
       path: '/lists',
-      component: () => import('@/components/FALists.vue'),
+      component: () => import('@/components/views/ListsPage.vue'),
     },
     {
       name: 'Profile',
       path: '/profile',
-      component: () => import('@/components/FAProfile.vue'),
+      component: () => import('@/components/views/ProfilePage.vue'),
     },
     {
       name: 'List',
       path: '/lists/list',
-      component: () => import('@/components/FAList.vue'),
+      component: () => import('@/components/views/ListPage.vue'),
     },
     {
       path: '/:catchAll(.*)', 
-      component: () => import('@/components/FAError.vue'), 
+      component: () => import('@/components/views/ErrorPage.vue'), 
     },
   ],
 });

@@ -1,14 +1,22 @@
 <template>
   <div class="lists">
-    <h2 class="lists__name">Favorites Movie</h2>
+    <h2 class="lists__name">
+      Favorites Movie
+    </h2>
     <RouterLink to="/lists/list">
-      <div class="list">Name of list</div>
+      <div class="list">
+        Name of list
+      </div>
     </RouterLink>
     <RouterLink to="/lists/list">
-      <div class="list">Name of list</div>
+      <div class="list">
+        Name of list
+      </div>
     </RouterLink>
     <RouterLink to="/lists/list">
-      <div class="list">Name of list</div>
+      <div class="list">
+        Name of list
+      </div>
     </RouterLink>
   </div>
 </template>

@@ -1,6 +1,8 @@
 <template>
   <div>
-    <p class="sucses">IT`s Profile Pade</p>
+    <p class="sucses">
+      IT`s Profile Pade
+    </p>
   </div>
 </template>
 

@@ -11,7 +11,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-// import 'primeicons/primeicons.css';
 
 export default defineComponent({
   props: {

@@ -1,23 +1,27 @@
 <template>
   <div>
-    <p class="sucses">Popular Films</p>
+    <p class="sucses">
+      Popular Films
+    </p>
     <div class="home-pade__films">
       <div
         v-for="item in 20"
         :key="item"
       >
-        <img class="img" src="/src/img/logo.png" alt="">
-        <h2>Someone Film</h2>
-        <p>This film about animals</p>
+        <FAFilmCard />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import FAFilmCard from '../shared/FAFilmCard.vue';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
+    components:{
+      FAFilmCard,
+    },
 });
 </script>
 

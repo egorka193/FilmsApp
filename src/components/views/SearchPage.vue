@@ -1,6 +1,9 @@
 <template>
   <div class="search">
-    <InputText class="search-input" variant="filled" />
+    <InputText
+      class="search-input"
+      variant="filled"
+    />
     <CVButton label="Search" />
   </div>
 </template>

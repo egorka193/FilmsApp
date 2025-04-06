@@ -3,9 +3,11 @@
   <div class="logo">
     <img
       class="logo__img"
-      :src="`/src/img/${type}.png`"
+      :src="`/src/assets/img/${type}.png`"
     >
-    <p class="logo__text">{{ text }}</p>
+    <p class="logo__text">
+      {{ text }}
+    </p>
   </div>
 </template>
 

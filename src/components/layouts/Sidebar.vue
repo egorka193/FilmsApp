@@ -24,8 +24,8 @@
 </template>
 
 <script lang="ts">
-import SidebarOption from './SidebarOption.vue';
-import Logo from './Logo.vue';
+import SidebarOption from '../layouts/SidebarOption.vue';
+import Logo from '../layouts/Logo.vue';
 
 export default {
   components: {

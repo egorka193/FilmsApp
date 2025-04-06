@@ -16,9 +16,9 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import FAheader from "./components/FAheader.vue";
-import SideBar from "./components/Sidebar.vue";
-import FAHero from './components/FAHero.vue';
+import FAheader from "./components/layouts/Header.vue";
+import SideBar from "./components/layouts/Sidebar.vue";
+import FAHero from './components/layouts/ContentContainer.vue';
 
 export default defineComponent({
   components: {
