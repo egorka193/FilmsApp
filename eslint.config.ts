@@ -7,6 +7,8 @@ import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescri
 // More info at https://github.com/vuejs/eslint-config-typescript/#advanced-setup
 
 export default defineConfigWithVueTs(
+  pluginVue.configs['flat/vue2-recommended'],
+  vueTsConfigs.recommendedTypeChecked,
   {
     name: 'app/files-to-lint',
     files: ['**/*.{ts,mts,tsx,vue}'],
@@ -15,14 +17,12 @@ export default defineConfigWithVueTs(
       'no-debugger': 'warn',
       'semi': 'error',
       'comma-dangle': ['error', 'always-multiline'],
+      'quotes': ['error', 'single'],
+      'vue/multi-word-component-names': 'off',
     },
   },
-
   {
     name: 'app/files-to-ignore',
     ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**'],
   },
-
-  pluginVue.configs['flat/vue2-recommended'],
-  vueTsConfigs.recommendedTypeChecked,
 );
