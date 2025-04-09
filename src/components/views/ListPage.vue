@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import FAFilmCard from '../shared/FAFilmCard.vue';
+import FAFilmCard from '@/components/shared/FAFilmCard.vue';
 import { defineComponent } from 'vue';
 
 export default defineComponent({

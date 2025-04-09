@@ -1,33 +1,40 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { RoutesNames } from './types';
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      name: 'Home',
+      name: RoutesNames.Home,
       path: '/home',
       alias: ['/'],
       component: () => import('@/components/views/HomePade.vue'),
     },
     {
-      name: 'Search',
+      name: RoutesNames.Search,
       path: '/search',
       component: () => import('@/components/views/SearchPage.vue'),
     },
     {
-      name: 'Lists',
+      name: RoutesNames.Lists,
       path: '/lists',
       component: () => import('@/components/views/ListsPage.vue'),
     },
     {
-      name: 'Profile',
+      name: RoutesNames.Profile,
       path: '/profile',
       component: () => import('@/components/views/ProfilePage.vue'),
     },
     {
-      name: 'List',
+      name: RoutesNames.List,
       path: '/lists/list',
       component: () => import('@/components/views/ListPage.vue'),
+    },
+    {
+      name: RoutesNames.Film,
+      path: '/film/:id',
+      component: () => import('@/components/views/FilmPage.vue'),
+      props: true,
     },
     {
       path: '/:catchAll(.*)', 
