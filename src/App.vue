@@ -1,8 +1,10 @@
 <template>
   <div class="app">
-    <SideBar 
-      v-if="menuOpen"
-    />
+    <Transition>
+      <SideBar 
+        v-if="menuOpen"
+      />
+    </Transition>
     <div class="content">
       <FAheader 
         @clickOnMenu="toggleMenu()"
@@ -14,9 +16,9 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import FAheader from './components/layouts/Header.vue';
-import SideBar from './components/layouts/Sidebar.vue';
-import ContentContainer from './components/layouts/ContentContainer.vue';
+import FAheader from '@/components/layouts/Header.vue';
+import SideBar from '@/components/layouts/Sidebar.vue';
+import ContentContainer from '@/components/layouts/ContentContainer.vue';
 
 export default defineComponent({
   components: {

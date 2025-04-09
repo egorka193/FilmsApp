@@ -12,7 +12,7 @@
         icon="pi-palette"
         @click="toggleDarkMode()"
       />
-      <RouterLink :to="{ name: 'Profile' }">
+      <RouterLink :to="{ name: RoutesNames.Profile }">
         <FAButton
           icon="pi-user"
         />
@@ -23,9 +23,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import FAButton from '../shared/FAButton.vue';
-import FABurgerButton from '../shared/FABurgerButton.vue';
+import FAButton from '@/components/shared/FAButton.vue';
+import FABurgerButton from '@/components/shared/FABurgerButton.vue';
 import { DARK_THEME_CLASS } from '@/constants';
+import { RoutesNames } from '@/router/types';
 
 export default defineComponent({
   components: {
@@ -44,6 +45,7 @@ export default defineComponent({
     return {
       toggleDarkMode,
       clickOnMenu,
+      RoutesNames,
     };
   },
 });

@@ -3,17 +3,17 @@
     <h2 class="lists__name">
       Favorites Movie
     </h2>
-    <RouterLink :to="{ name: 'List' }">
+    <RouterLink :to="{ name: RoutesNames.List }">
       <div class="list">
         Name of list
       </div>
     </RouterLink>
-    <RouterLink :to="{ name: 'List' }">
+    <RouterLink :to="{ name: RoutesNames.List }">
       <div class="list">
         Name of list
       </div>
     </RouterLink>
-    <RouterLink :to="{ name: 'List' }">
+    <RouterLink :to="{ name: RoutesNames.List }">
       <div class="list">
         Name of list
       </div>
@@ -22,11 +22,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted } from 'vue';
+import { getLists } from '@/services/api/listsApi';
+import { RoutesNames } from '@/router/types';
 
 export default defineComponent({
   setup() {
+    onMounted(async () => {
+      const lists = await getLists();
+      console.log(lists);
+    });
+
     return{
+      RoutesNames,
     };
   },
 });
