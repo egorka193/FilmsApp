@@ -1,19 +1,27 @@
 @import 'primeicons/primeicons.css';
 @import './base.css';
 .btn{
-  background-color: rgb(154, 166, 167);
+  background-color:var(--background-color);
   border: none;
   border-radius: 30%;
   cursor: pointer;
   padding: 5px;
 }
 .btn:hover{
-  background-color: rgb(192, 207, 208);
+  background-color: var(--background-color-hover);
 }
 a{
   text-decoration: none;
   color: black;
 }
 :root{
-  --dark-theme: 'my-app-dark'
+  --dark-theme: 'my-app-dark';
+  --main-color: #0f172a; 
+  --background-color: rgb(154, 166, 167);
+  --background-color-hover:rgb(192, 207, 208);
+  --font-size: 16px; 
+}
+body, html {
+  overflow: hidden;
+  height: 100%;
 }
