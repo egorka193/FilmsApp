@@ -9,7 +9,7 @@
         class="search__input-text"
         variant="filled"
       />
-      <CVButton
+      <FAButton
         label="Search"
         @click="onSearchClick"
       />
@@ -18,65 +18,82 @@
       <p>Loading.......</p>
     </div>
     <div v-else-if="!results">
-      <p>{{ nothFound }}</p>
+      <p>Упс, ничего не удалось найти</p>
     </div>
     <div class="results-container">
-      <RouterLink 
+      <div 
         v-for="film in results"
         :key="film.imdbID"
         :to="{ name: 'Film', params: { id: film.imdbID } }"
+        @click="goToList(film.imdbID)"
       >
         <div
           class="results-container__film"
         >
-          <FAFilmCardRow
+          <FAFilmRow
+            :lists-options="lists"
             :poster="film.Poster"
             :title="film.Title"
             :year="film.Year"
             :type="film.Type"
           />
         </div>
-      </RouterLink>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 import InputText from 'primevue/inputtext';
-import CVButton from 'primevue/button';
+import FAButton from 'primevue/button';
 import { searchFilms, type FilmShort } from '@/services/api/filmsApi';
-import FAFilmCardRow from '@/components/shared/FAFilmCardRow.vue';
+import FAFilmRow from '@/components/shared/FAFilmRow.vue';
 import { getFilmById } from '@/services/api/filmsApi';
+import { getLists } from '@/services/api/listsApi';
+import type { List } from '@/services/api/types';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   components: {
-    FAFilmCardRow,
+    FAFilmRow,
     InputText,
-    CVButton,
+    FAButton,
   },
   setup() {
+    onMounted(async () => {
+      lists.value = await getLists();
+      getListsName(lists.value);
+      console.log( typeof lists.value);
+    });
+    const router = useRouter();
+    const goToList = async (id: string) => {
+      await router.push({ name: 'Film', params: { id } });
+    };
+    const lists = ref<List[]>([]);;
+    const listsName = ref();
+    const getListsName = (lists: List[]) => {
+      listsName.value = lists.map(item => item.name);
+      console.log(listsName.value);
+    };
     const query = ref('Blade');
     const results = ref<FilmShort[]>([]);
     const isLoading = ref(false);
-    const nothFound = ref('');
 
-    const ClickOnFilm = async (id: string) => {
+    const clickOnFilm = async (id: string) => {
       const response = await getFilmById(id);
       console.log(response);
-      
       return id;
     };
+    const handleClick = (value: MouseEvent) => {
+      console.log(value);
+      
+    };
     const onSearchClick = async () => {
-      isLoading.value = !isLoading.value;
+      isLoading.value = true;
       const response = await searchFilms(query.value);
       results.value = response.Search;
-      if(!results.value){
-        isLoading.value = !isLoading.value;
-        nothFound.value = 'Упс, ничего не удалось найти';
-      } else {
-        isLoading.value = !isLoading.value;
-      }
+      isLoading.value = false;
     };
 
     return {
@@ -84,8 +101,11 @@ export default defineComponent({
       onSearchClick,
       results,
       isLoading,
-      ClickOnFilm,
-      nothFound,
+      clickOnFilm,
+      listsName,
+      handleClick,
+      goToList,
+      lists,
     };
   },
 });

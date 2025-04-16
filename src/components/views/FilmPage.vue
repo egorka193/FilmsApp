@@ -3,13 +3,14 @@
     <div
       v-if="!result"
       class="film-page__loading"
-    >Loading...</div>
+    >
+      Loading...
+    </div>
     <div
       v-else
-      class="film-layout"
+      class="film-page__layout"
     >
       <img
-        class="results-container__film-poster"
         :src="result.Poster"
       >
       <div>
@@ -51,7 +52,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.film-layout{
+.film-page__layout{
   display: flex;
   gap: 10px;
 }
