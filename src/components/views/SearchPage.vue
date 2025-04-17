@@ -63,7 +63,6 @@ export default defineComponent({
   setup() {
     onMounted(async () => {
       lists.value = await getLists();
-      getListsName(lists.value);
       console.log( typeof lists.value);
     });
     const router = useRouter();
@@ -71,11 +70,6 @@ export default defineComponent({
       await router.push({ name: 'Film', params: { id } });
     };
     const lists = ref<List[]>([]);;
-    const listsName = ref();
-    const getListsName = (lists: List[]) => {
-      listsName.value = lists.map(item => item.name);
-      console.log(listsName.value);
-    };
     const query = ref('Blade');
     const results = ref<FilmShort[]>([]);
     const isLoading = ref(false);
@@ -84,10 +78,6 @@ export default defineComponent({
       const response = await getFilmById(id);
       console.log(response);
       return id;
-    };
-    const handleClick = (value: MouseEvent) => {
-      console.log(value);
-      
     };
     const onSearchClick = async () => {
       isLoading.value = true;
@@ -102,8 +92,6 @@ export default defineComponent({
       results,
       isLoading,
       clickOnFilm,
-      listsName,
-      handleClick,
       goToList,
       lists,
     };

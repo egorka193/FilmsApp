@@ -5,22 +5,45 @@
         Lists of Movie
       </h2>
       <div>
-        <button 
-          class="lists__header__btn"
+        <FAButton 
+          class="lists__header-btn"
+          icon="pi-plus"
           @click="addList"
         >
-          <i 
-            class="pi pi-plus"
-            style="font-size: small"
-          />
           Add List
-        </button>
+        </FAButton> 
+      </div>
+    </div>
+    <div v-if="isLoading">
+      <p>Loading.....</p>
+    </div>
+    <div
+      v-for="list in lists"
+      v-else
+      :key="list.id"
+      class="list"
+      @click="goToList()"
+    >
+      <div class="list__name">
+        {{ list.name }}
+      </div>
+      <div class="list__buttons">
+        <FAButton 
+          icon="pi-trash"
+          :class="[list.isSystem === true ? 'disabled' : '']"
+          @click.stop="handleClick(list.id)"
+        />
+        <FAButton 
+          icon="pi-pencil"
+          :class="[list.isSystem === true ? 'disabled' : '']"
+          @click.stop="handleEdit(list.id)"
+        />
       </div>
     </div>
     <ModalListAdd
-      :isAdding="isAdding"
+      :visible="isAdding"
       @close="closeAdd"
-      @handleClick="(value) => addListToLocalStorage(value)"
+      @handleClick="(value) => addListToApi(value)"
     />
     <ModalListEditor
       :list="editingList"
@@ -31,81 +54,56 @@
       :list="deletingList"
       @close="closeDeleted"
       @reject="closeDeleted"
-      @confirm="(id) => handleDelete(id)"
+      @confirm="(id) => deleteList(id)"
     />
-    <div
-      v-for="list in lists"
-      :key="list.id"
-      class="list"
-      @click="goToList()"
-    >
-      <div class="list__name">
-        {{ list.name }}
-      </div>
-      <div class="list__buttons">
-        <button
-          :class="['pi pi-trash', list.isSystem === true ? 'disabled' : '']"
-          @click.stop="handleClick(list.id)" 
-        />
-        <button 
-          class="pi pi-pencil" 
-          @click.stop="handleEdit(list.id)" 
-        />
-      </div>
-    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
+import { computed, defineComponent, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { getLists } from '@/services/api/listsApi';
 import { RoutesNames } from '@/router/types';
 import ModalListAdd from '../layouts/ModalListAdd.vue';
 import { LocalStorageKeys } from '@/services/api/types';
 import type { List } from '@/services/api/types';
-import { createList } from '@/services/api/listsApi';
 import ModalListEditor from '../layouts/ModalListEditor.vue';
-import { updateLs } from '@/services/api/listsApi';
 import ModalListDelete from '../layouts/ModalListDelete.vue';
+import FAButton from '../shared/FAButton.vue';
+import { useStore } from 'vuex';
+import type { State } from '@/store/store';
 
 
 export default defineComponent({
   components: {
-    // Dialog,
     ModalListAdd,
     ModalListDelete,
     ModalListEditor,
+    FAButton,
   },
   setup() {
+    const store = useStore<State>();
+    const lists = computed(() => store.state.lists);
+    const isLoading = ref(true);
     const editingList = ref<List | undefined>();
     const deletingList = ref<List | undefined>();
     const listId = ref(0);
     const isAdding = ref(false);
-    const isEditing = ref(false);
-    const isDeleted = ref(false);
-    const lists = ref<List[]>([]);
     onMounted(async () => {
       // localStorage.clear();
-      await drawLists();
+      await store.dispatch('initList');
+      isLoading.value = false;
     });
     const router = useRouter();
 
     const goToList = async () => {
       await router.push({ name: RoutesNames.List });
     };
-    const addListToLocalStorage = async (value: string) => {
-      await createList(value);
-      closeAdd();
-      await drawLists();
-      
-    };
-    const drawLists = async () => {
-      lists.value = await getLists();
+    const addListToApi = async (value: string) => {
+      await store.dispatch('addList', value);
+      isAdding.value = false;
     };
     const handleClick = (id: number) => {
       deletingList.value = lists.value.filter((list) => list.id === id)[0];
-      isDeleted.value = true;
     };
     const handleEdit = (id: number) => {
       editingList.value = lists.value.filter((list) => list.id === id)[0];
@@ -122,20 +120,23 @@ export default defineComponent({
     const closeDeleted = () => {
       deletingList.value = undefined;
     };
-    const renameList = (id: number, value: string) => {
-      lists.value = lists.value.map((list) => {
-        return {
-          ...list,
-          name: list.id === id ? value : list.name,
-        };
-      });
-      updateLs(lists.value);
-      editingList.value = undefined;
+    const renameList = async (id: number, value: string) => {
+      const result = lists.value.filter((item) => item.id === id)[0];
+      result.name = value;
+      await store.dispatch('updateList', result);
+      closeEditor();
+      // lists.value = lists.value.map((list) => {
+      //   return {
+      //     ...list,
+      //     name: list.id === id ? value : list.name,
+      //   };
+      // });
+      // await updateLists(lists.value);
+      // editingList.value = undefined;
     };
-    const handleDelete = (id: number) => {
-      lists.value = lists.value.filter((list) => list.id !== id);
-      updateLs(lists.value);
-      deletingList.value = undefined;
+    const deleteList = async (id: number) => {
+      await store.dispatch('deleteList', id);
+      closeDeleted();
     };
 
     return{
@@ -145,19 +146,18 @@ export default defineComponent({
       isAdding,
       closeEditor,
       LocalStorageKeys,
-      addListToLocalStorage,
+      addListToApi,
       goToList,
-      handleDelete,
-      isDeleted,
+      deleteList,
       closeDeleted,
       handleClick,
       listId,
       handleEdit,
-      isEditing,
       closeAdd,
       renameList,
       editingList,
       deletingList,
+      isLoading,
     };
   },
 });
@@ -181,15 +181,21 @@ export default defineComponent({
 .lists__name{
   margin-bottom: 20px;
 }
+.list__name{
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+}
 .lists__header{
   display: flex;
   justify-content: space-between;
 }
-.lists__header__btn{
+.lists__header-btn{
   display: flex;
-  gap: 5px;
-  padding: 5px;
-  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  padding: 7px;
 }
 .list__buttons{
   display: flex;
@@ -197,9 +203,6 @@ export default defineComponent({
 }
 .list__buttons button{
   padding: 5px;
-}
-.list__buttons button:hover{
-  background-color: antiquewhite;
 }
 .disabled{
   opacity: 0.5;

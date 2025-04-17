@@ -1,12 +1,9 @@
 
 <template>
-  <PrimeDialog
-    modal
-    dismissable-mask
-    :visible="isAdding"
-    :style="{ width: '500px' }"
+  <FAModal
+    :visible="visible"
     header="What shall we call your new list?"
-    @update:visible="close"
+    @close="close"
   >
     <div class="modal-content">
       <InputText
@@ -27,23 +24,24 @@
         label="Add"
         severity="primary"
         @click="handleClick"
-      />
+      /> 
     </template>
-  </PrimeDialog>
+  </FAModal>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { InputText, Dialog as PrimeDialog, Button as PrimeButton } from 'primevue';
+import { InputText, Button as PrimeButton } from 'primevue';
+import FAModal from '../shared/FAModal.vue';
 
 export default defineComponent({
   components: {
+    FAModal,
     InputText,
-    PrimeDialog,
     PrimeButton,
   },
   props: {
-    isAdding: {
+    visible: {
       type: Boolean,
       default: false,
     },
@@ -58,6 +56,7 @@ export default defineComponent({
       if (value.value) {
         ctx.emit('handleClick', value.value);
       }
+      value.value = '';
     };
 
     return {

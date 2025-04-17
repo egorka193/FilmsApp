@@ -1,12 +1,9 @@
 
 <template>
-  <PrimeDialog
-    modal
-    dismissable-mask
+  <FAModal
     :visible="list !== undefined"
-    :style="{ width: '500px' }"
     :header="`Do you want to delete '${value?.name}' list?`"
-    @update:visible="close"
+    @close="close"
   >
     <template #footer>
       <PrimeButton
@@ -19,24 +16,25 @@
         label="Delete"
         severity="primary"
         @click="confirm(value!.id)"
-      />
+      /> 
     </template>
-  </PrimeDialog>
+  </FAModal>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import { Dialog as PrimeDialog, Button as PrimeButton } from 'primevue';
+import { defineComponent, ref, watch, type PropType } from 'vue';
+import { Button as PrimeButton } from 'primevue';
 import type { List } from '@/services/api/types';
+import FAModal from '../shared/FAModal.vue';
 
 export default defineComponent({
   components: {
-    PrimeDialog,
+    FAModal,
     PrimeButton,
   },
   props: {
     list: {
-      type: Object,
+      type: Object as PropType<List | undefined>,
       default: undefined,
     },
   },
@@ -53,21 +51,21 @@ export default defineComponent({
       ctx.emit('reject');
     };
 
+    watch(
+      () => props.list,
+      (newVal) => {
+        if(newVal !== undefined){
+          value.value = newVal;
+        }
+      },
+    );
+
     return {
       close,
       value,
       reject,
       confirm,
     };
-  },
-  watch: {
-    list: {
-      handler(newNal) {
-        if(newNal !== undefined){
-          this.value = newNal;
-        }
-      },
-    },
   },
 });
 </script>

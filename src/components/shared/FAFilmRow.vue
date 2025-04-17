@@ -24,6 +24,7 @@
       <PrimeButton
         class="film-row__button"
         label="Add to list"
+        @click="handleClick(selectedList)"
       />
     </div>
   </div>
@@ -62,11 +63,14 @@ export default defineComponent({
       required: true,
     },
   },
-  setup() {
+  setup(props, ctx) {
     const selectedList = ref();
-
+    const handleClick = (value: List) => {
+      ctx.emit('handleClick', value);
+    };
     return {
       selectedList,
+      handleClick,
     };  
   },
 });

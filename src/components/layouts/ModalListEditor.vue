@@ -1,12 +1,9 @@
 
 <template>
-  <PrimeDialog
-    modal
-    dismissable-mask
+  <FAModal
     :visible="list !== undefined"
-    :style="{ width: '500px' }"
     header="What shall we rename this list?"
-    @update:visible="close"
+    @close="close"
   >
     <div class="modal-content">
       <InputText
@@ -27,21 +24,22 @@
         label="Rename"
         severity="primary"
         @click="rename(list!.id, value)"
-      />
+      /> 
     </template>
-  </PrimeDialog>
+  </FAModal>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, type PropType, watch } from 'vue';
-import { InputText, Dialog as PrimeDialog, Button as PrimeButton } from 'primevue';
+import { InputText, Button as PrimeButton } from 'primevue';
 import type { List } from '@/services/api/types';
+import FAModal from '../shared/FAModal.vue';
 
 
 export default defineComponent({
   components: {
+    FAModal,
     InputText,
-    PrimeDialog,
     PrimeButton,
   },
   props: {

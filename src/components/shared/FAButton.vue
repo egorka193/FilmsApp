@@ -1,9 +1,10 @@
 <template>
-  <button class="btn">
+  <button class="button">
     <i 
       class="pi"
       :class="icon"
     />
+    <slot />
   </button>
 </template>
 
@@ -27,5 +28,15 @@ i{
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.button{
+  background-color: var(--background-color);
+  border: none;
+  border-radius: 30%;
+  cursor: pointer;
+  padding: 5px;
+}
+.button:hover{
+  background-color: var(--background-color-hover)
 }
 </style>
