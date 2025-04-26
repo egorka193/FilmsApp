@@ -27,7 +27,8 @@ const router = createRouter({
     },
     {
       name: RoutesNames.List,
-      path: '/lists/list',
+      path: '/lists/:id',
+      props: true,
       component: () => import('@/components/views/ListPage.vue'),
     },
     {
@@ -37,6 +38,7 @@ const router = createRouter({
       props: true,
     },
     {
+      name: 'NotFound',
       path: '/:catchAll(.*)', 
       component: () => import('@/components/views/ErrorPage.vue'), 
     },

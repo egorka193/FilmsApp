@@ -44,7 +44,7 @@ export default {
   background-color: rgb(154, 166, 167);
   width: 300px;
   flex-shrink: 0;
-  height: 100vh;
+  min-height: 100vh;
   transition: 1s ease;
   overflow: hidden;
 }

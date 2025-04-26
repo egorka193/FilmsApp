@@ -17,29 +17,30 @@
     <div v-if="isLoading">
       <p>Loading.....</p>
     </div>
-    <div
-      v-for="list in lists"
-      v-else
-      :key="list.id"
-      class="list"
-      @click="goToList()"
-    >
-      <div class="list__name">
-        {{ list.name }}
+    <template v-else>
+      <div
+        v-for="list in lists"
+        :key="list.id"
+        class="list"
+        @click="goToList(list.id)"
+      >
+        <div class="list__name">
+          {{ list.name }}
+        </div>
+        <div class="list__buttons">
+          <FAButton 
+            icon="pi-trash"
+            :class="[list.isSystem === true ? 'disabled' : '']"
+            @click.stop="handleClick(list.id)"
+          />
+          <FAButton 
+            icon="pi-pencil"
+            :class="[list.isSystem === true ? 'disabled' : '']"
+            @click.stop="handleEdit(list.id)"
+          />
+        </div>
       </div>
-      <div class="list__buttons">
-        <FAButton 
-          icon="pi-trash"
-          :class="[list.isSystem === true ? 'disabled' : '']"
-          @click.stop="handleClick(list.id)"
-        />
-        <FAButton 
-          icon="pi-pencil"
-          :class="[list.isSystem === true ? 'disabled' : '']"
-          @click.stop="handleEdit(list.id)"
-        />
-      </div>
-    </div>
+    </template>
     <ModalListAdd
       :visible="isAdding"
       @close="closeAdd"
@@ -60,15 +61,15 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { RoutesNames } from '@/router/types';
-import ModalListAdd from '../layouts/ModalListAdd.vue';
+import ModalListAdd from '@/components/layouts/ModalListAdd.vue';
 import { LocalStorageKeys } from '@/services/api/types';
 import type { List } from '@/services/api/types';
-import ModalListEditor from '../layouts/ModalListEditor.vue';
-import ModalListDelete from '../layouts/ModalListDelete.vue';
-import FAButton from '../shared/FAButton.vue';
+import ModalListEditor from '@/components/layouts/ModalListEditor.vue';
+import ModalListDelete from '@/components/layouts/ModalListDelete.vue';
+import FAButton from '@/components/shared/FAButton.vue';
 import { useStore } from 'vuex';
 import type { State } from '@/store/store';
 
@@ -83,20 +84,15 @@ export default defineComponent({
   setup() {
     const store = useStore<State>();
     const lists = computed(() => store.state.lists);
-    const isLoading = ref(true);
+    const isLoading = computed(() => store.state.isListsLoading);
     const editingList = ref<List | undefined>();
     const deletingList = ref<List | undefined>();
     const listId = ref(0);
     const isAdding = ref(false);
-    onMounted(async () => {
-      // localStorage.clear();
-      await store.dispatch('initList');
-      isLoading.value = false;
-    });
     const router = useRouter();
 
-    const goToList = async () => {
-      await router.push({ name: RoutesNames.List });
+    const goToList = async (id: number) => {
+      await router.push({ name: RoutesNames.List, params: { id } });
     };
     const addListToApi = async (value: string) => {
       await store.dispatch('addList', value);
@@ -125,14 +121,6 @@ export default defineComponent({
       result.name = value;
       await store.dispatch('updateList', result);
       closeEditor();
-      // lists.value = lists.value.map((list) => {
-      //   return {
-      //     ...list,
-      //     name: list.id === id ? value : list.name,
-      //   };
-      // });
-      // await updateLists(lists.value);
-      // editingList.value = undefined;
     };
     const deleteList = async (id: number) => {
       await store.dispatch('deleteList', id);
@@ -173,10 +161,12 @@ export default defineComponent({
   border-radius: 10px;
   cursor: pointer;
   text-decoration: none;
+  transition: all 0.5s ease;
 }
 .list:hover{
   border: 1px solid blue;
-  transform: scale();
+  transform: translateY(-5px);
+  background-color: gainsboro;
 }
 .lists__name{
   margin-bottom: 20px;

@@ -15,10 +15,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, onBeforeMount, ref } from 'vue';
 import FAheader from '@/components/layouts/Header.vue';
 import SideBar from '@/components/layouts/Sidebar.vue';
 import ContentContainer from '@/components/layouts/ContentContainer.vue';
+import { useStore } from 'vuex';
+import type { State } from './store/store';
 
 export default defineComponent({
   components: {
@@ -31,8 +33,13 @@ export default defineComponent({
     const toggleMenu = () => {
       menuOpen.value = !menuOpen.value;
     };
+    const store = useStore<State>();
     
-    
+    onBeforeMount(async () => {
+      await store.dispatch('initList');
+      console.log(store.state.lists);
+      
+    });
     return {
       menuOpen,
       toggleMenu,

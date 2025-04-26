@@ -10,36 +10,20 @@
         <p>{{ type }}</p>
       </div>
     </div>
-    <div>
-      <div>
-        <PrimeSelect
-          v-model="selectedList"
-          class="film-row__select"
-          :options="listsOptions"
-          option-label="name"
-          placeholder="Select a list"
-          @click.stop
-        />
-      </div>
-      <PrimeButton
-        class="film-row__button"
-        label="Add to list"
-        @click="handleClick(selectedList)"
-      />
-    </div>
+    <FASelect 
+      :current-film-id="id"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, type PropType} from 'vue';
-import PrimeSelect from 'primevue/select';
-import { Button as PrimeButton } from 'primevue';
+import { defineComponent, type PropType} from 'vue';
+import FASelect from '@/components/shared/FASelect.vue';
 import type { List } from '@/services/api/types';
 
 export default defineComponent({
   components: {
-    PrimeSelect,
-    PrimeButton,
+    FASelect,
   },
   props: {
     poster: {
@@ -58,20 +42,14 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    id: {
+      type: String,
+      required: true,
+    },
     listsOptions: {
       type: Array as PropType<List[]>,
       required: true,
     },
-  },
-  setup(props, ctx) {
-    const selectedList = ref();
-    const handleClick = (value: List) => {
-      ctx.emit('handleClick', value);
-    };
-    return {
-      selectedList,
-      handleClick,
-    };  
   },
 });
 </script>

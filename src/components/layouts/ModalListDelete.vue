@@ -25,7 +25,7 @@
 import { defineComponent, ref, watch, type PropType } from 'vue';
 import { Button as PrimeButton } from 'primevue';
 import type { List } from '@/services/api/types';
-import FAModal from '../shared/FAModal.vue';
+import FAModal from '@/components/shared/FAModal.vue';
 
 export default defineComponent({
   components: {

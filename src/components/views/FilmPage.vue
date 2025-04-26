@@ -10,29 +10,40 @@
       v-else
       class="film-page__layout"
     >
-      <img
-        :src="result.Poster"
-      >
-      <div>
-        <h2>{{ `${result.Title} (${result.Year})` }}</h2>
-        <p>{{ `Runtime: ${result.Runtime}` }}</p>
-        <p>{{ `Raiting: ${result.Rated}` }}</p>
-        <p>{{ result.Genre }}</p>
-        <p>{{ `Score: ${result.imdbRating}` }}</p>
-        <p>{{ `Descriptions: ${result.Plot}` }}</p>
-        <p>{{ `Actors: ${result.Actors}` }}</p>
-        <p>{{ `Country: ${result.Country}` }}</p>
-        <p>{{ `Actors: ${result.Actors}` }}</p>
+      <div class="film-page__layout-wrapper">
+        <img
+          :src="result.Poster"
+        >
+        <div>
+          <h2>{{ `${result.Title} (${result.Year})` }}</h2>
+          <p>{{ `Runtime: ${result.Runtime}` }}</p>
+          <p>{{ `Raiting: ${result.Rated}` }}</p>
+          <p>{{ result.Genre }}</p>
+          <p>{{ `Score: ${result.imdbRating}` }}</p>
+          <p>{{ `Descriptions: ${result.Plot}` }}</p>
+          <p>{{ `Actors: ${result.Actors}` }}</p>
+          <p>{{ `Country: ${result.Country}` }}</p>
+          <p>{{ `Actors: ${result.Actors}` }}</p>
+        </div>
       </div>
+      <FASelect
+        :current-film-id="id"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
+import { computed, defineComponent, onMounted, ref } from 'vue';
 import { getFilmById, type FilmInformation } from '@/services/api/filmsApi';
+import FASelect from '@/components/shared/FASelect.vue';
+import { useStore } from 'vuex';
+import type { State } from '@/store/store';
 
 export default defineComponent({
+  components: {
+    FASelect,
+  },
   props: {
     id: {
       type: String,
@@ -40,12 +51,16 @@ export default defineComponent({
     },
   },
   setup (props) {
+    const store = useStore<State>();
+    const lists = computed(() => store.state.lists);
     const result = ref<FilmInformation | null>(null);
+
     onMounted( async() => {
       result.value = await getFilmById(props.id);
     });
     return {
       result,
+      lists,
     };
   },
 });
@@ -54,7 +69,11 @@ export default defineComponent({
 <style scoped>
 .film-page__layout{
   display: flex;
-  gap: 10px;
+  justify-content: space-between;
+}
+.film-page__layout-wrapper{
+  display: flex;
+  gap: 20px;
 }
 p{
   font-weight: 600;

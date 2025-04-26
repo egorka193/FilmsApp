@@ -32,7 +32,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { InputText, Button as PrimeButton } from 'primevue';
-import FAModal from '../shared/FAModal.vue';
+import FAModal from '@/components/shared/FAModal.vue';
 
 export default defineComponent({
   components: {

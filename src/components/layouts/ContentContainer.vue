@@ -16,10 +16,10 @@ export default defineComponent({
 .container{
   flex-grow: 1;
   margin: 20px;
-  padding: 20px;
+  padding: 15px;
   border-radius: 10px;
   border: 1px solid rgba(0, 0, 0, 0.172);
-  background-color: #f4f4f4;
+  background-color: #cfcfcf;
   transition: margin-left 0.3s ease;
 }
 

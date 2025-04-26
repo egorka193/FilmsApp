@@ -35,6 +35,7 @@ i{
   border-radius: 30%;
   cursor: pointer;
   padding: 5px;
+  transition: all 0.5s ease-in-out;
 }
 .button:hover{
   background-color: var(--background-color-hover)
