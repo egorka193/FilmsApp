@@ -4,6 +4,9 @@
       Popular Films
     </p>
     <div class="home-pade__films">
+      <div v-if="popularFilms.length === 0">
+        Loading.......
+      </div>
       <template v-if="popularFilms.length !== 0">
         <div
           v-for="film in popularFilms"
@@ -25,7 +28,7 @@
 
 <script lang="ts">
 import FAFilmCard from '@/components/shared/FAFilmCard.vue';
-import { getPopularFromOMDb, type FilmInformation } from '@/services/api/filmsApi';
+import { getPopularFilms, type FilmInformation } from '@/services/api/filmsApi';
 import { defineComponent, onMounted, ref } from 'vue';
 
 export default defineComponent({
@@ -34,10 +37,10 @@ export default defineComponent({
     },
     setup() {
       const popularFilms = ref<FilmInformation[]>([]);
+
       onMounted(async () => {
-        popularFilms.value = await getPopularFromOMDb();
+        popularFilms.value = await getPopularFilms();
         console.log(popularFilms.value);
-        
       });
 
       return{
@@ -49,9 +52,8 @@ export default defineComponent({
 
 <style scoped>
 .home-pade__title{
-  font-size: 60px;
+  font-size: 25px;
   font-weight: 700;
-  margin-bottom: 20px;
 }
 .img{
   width: 50px;

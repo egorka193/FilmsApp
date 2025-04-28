@@ -36,7 +36,7 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref } from 'vue';
 import { getFilmById, type FilmInformation } from '@/services/api/filmsApi';
-import FASelect from '@/components/shared/FASelect.vue';
+import FASelect from '@/components/shared/FASelectLists.vue';
 import { useStore } from 'vuex';
 import type { State } from '@/store/store';
 

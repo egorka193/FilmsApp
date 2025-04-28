@@ -7,12 +7,21 @@
       option-label="name"
       :placeholder="`Added in ${count} lists`"
       @click.stop
-      @change="choseFlim(selectedList, currentFilmId)"
+      @change="chooseFlim(selectedList, currentFilmId)"
     > 
+      <template #value>
+        <span class="film-row__placeholder">
+          {{ `Added in ${count} lists` }}
+        </span>
+      </template>
+
       <template #option="slotProps">
         <div class="select-item">
           {{ slotProps.option.name }}
-          <span :class="['pi', slotProps.option.filmsIds?.includes(currentFilmId) === true ? 'pi-check' : '']" />
+          <span
+            v-if="slotProps.option.filmsIds?.includes(currentFilmId) === true"
+            class="pi pi-check"
+          />
         </div>
       </template>
     </PrimeSelect>
@@ -20,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, onMounted, ref } from 'vue';
+import { defineComponent, computed, ref } from 'vue';
 import PrimeSelect from 'primevue/select';
 import type { List } from '@/services/api/types';
 import { useStore } from 'vuex';
@@ -36,43 +45,30 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props, ctx) {
+  setup(props) {
     const store = useStore<State>();
     const options = computed(() => store.state.lists);
-    const allFilmsIds: string[] = options.value.flatMap(list => list.filmsIds);
-    const count = ref(0);
-    const addedCount = () => allFilmsIds.map((item) => {
-      if(item === props.currentFilmId){
-        count.value++;
-      }
-      return count;
+    const allFilmsIds = computed<string[]>(() => options.value.flatMap(list => list.filmsIds));
+    const count = computed(() => {
+      return allFilmsIds.value.filter((item) => item === props.currentFilmId).length;
     });
     const selectedList = ref();
-    const handleClick = (value: List) => {
-      addedCount();
-      ctx.emit('handleClick', value);
-      console.log(value);
-    };
-    const choseFlim = async (list: List, id: string) => {
-      const result = options.value.filter((item) => item.id === list.id)[0];
-      if(!result.filmsIds.includes(id)){
-        result.filmsIds.push(id);
-      } else {
-        result.filmsIds = result.filmsIds.filter(id => id !== id);
-      }
-      await store.dispatch('updateList', result);
-    };
 
-    onMounted(() => {
-      addedCount();
-    });
+    const chooseFlim = async (list: List, currentFilmId: string) => {
+      if(!list.filmsIds.includes(currentFilmId)){
+        list.filmsIds.push(currentFilmId);
+      } else {
+        list.filmsIds = list.filmsIds.filter(id => id !== currentFilmId);
+      }
+      await store.dispatch('updateList', list);
+    };
+  
     return {
       options,
       selectedList,
-      handleClick,
       count,
-      choseFlim,
-    };  
+      chooseFlim,
+    };
   },
 });
 </script>

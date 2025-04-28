@@ -51,8 +51,10 @@ export default defineComponent({
 <style scoped>
 .app{
   display: flex;
+  height: 100vh;
 }
 .content{
   width: 100%;
+  overflow-y: auto;
 }
 </style>

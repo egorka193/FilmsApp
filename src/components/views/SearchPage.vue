@@ -41,30 +41,14 @@
         </div>
       </div>
     </div>
-    <div 
+    <FASelectPages
+      :number="numberPage"
+      :total-page="quantityPages"
       :class="['search__buttons', results.length === 0 ? 'search__buttons-disabled' : '']"
-    >
-      <button 
-        :class="['search__button', numberPage === 1 ? 'search__button-disabled' : '']"
-        @click="goPrev(1, numberPage)"
-      >
-        ←
-      </button>
-      <button
-        v-for="item in visiblePages"
-        :key="item"
-        :class="['search__button', item === numberPage || item === '...'? 'search__button-disabled' : '']"
-        @click="typeof item === 'number' && loadAnotherPage(item)"
-      >
-        {{ item }}
-      </button>
-      <button 
-        :class="['search__button', numberPage === quantityPages ? 'search__button-disabled' : '']"
-        @click="goNext(1, numberPage)"
-      >
-        →
-      </button>
-    </div>
+      @prev="(num, numberPage) => goPrev(num, numberPage)"
+      @next="(num, numberPage) => goNext(num, numberPage)"
+      @loadPage="(num) => loadAnotherPage(num)"
+    />
   </div>
 </template>
 
@@ -77,15 +61,16 @@ import FAFilmRow from '@/components/shared/FAFilmRow.vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import type { State } from '@/store/store';
+import FASelectPages from '../shared/FASelectPages.vue';
 
 export default defineComponent({
   components: {
     FAFilmRow,
     InputText,
     FAButton,
+    FASelectPages,
   },
   setup() {
-    // const quantityPages = computed(() => store.state.lists);
     const router = useRouter();
     const store = useStore<State>();
     const lists = computed(() => store.state.lists);
@@ -94,33 +79,31 @@ export default defineComponent({
     const isLoading = ref(false);
     const numberPage = ref(0);
     const quantityPages = ref(0);
-    const visiblePages = computed(() => {
-      const total = quantityPages.value;
-      const current = numberPage.value;
-      const delta = 1;
+    // const visiblePages = computed(() => {
+    //   const total = quantityPages.value;
+    //   const current = numberPage.value;
+    //   const delta = 1;
 
-      const range: (number | string)[] = [];
+    //   const range: (number | string)[] = [];
 
-      if (total <= 7) {
-        for (let i = 1; i <= total; i++) range.push(i);
-      } else {
-        range.push(1);
+    //   if (total <= 7) {
+    //     for (let i = 1; i <= total; i++) range.push(i);
+    //   } else {
+    //     range.push(1);
 
-        if (current > 3) range.push('...');
+    //     if (current > 3) range.push('...');
 
-        const start = Math.max(2, current - delta);
-        const end = Math.min(total - 1, current + delta);
-        for (let i = start; i <= end; i++) range.push(i);
+    //     const start = Math.max(2, current - delta);
+    //     const end = Math.min(total - 1, current + delta);
+    //     for (let i = start; i <= end; i++) range.push(i);
 
-        if (current < total - 2) range.push('...');
+    //     if (current < total - 2) range.push('...');
 
-        range.push(total);
-      }
+    //     range.push(total);
+    //   }
 
-      return range;
-    });
-
-
+    //   return range;
+    // });
 
     const goToFilm = async (id: string) => {
       await router.push({ name: 'Film', params: { id } });
@@ -144,7 +127,6 @@ export default defineComponent({
       const response = await searchFilms(query.value, page);
       results.value = response.Search;
       quantityPages.value = countPages(+response.totalResults);
-      console.log(quantityPages.value);
       isLoading.value = false;
       numberPage.value = page;
     };
@@ -166,7 +148,6 @@ export default defineComponent({
       quantityPages,
       goPrev,
       goNext,
-      visiblePages,
     };
   },
 });
@@ -175,6 +156,10 @@ export default defineComponent({
 <style scoped>
 .search__title{
   margin-bottom: 20px;
+}
+.search__title h2{
+  font-size: 25px;
+  font-weight: 700;
 }
 .search__form{
   display: flex;
@@ -197,7 +182,7 @@ export default defineComponent({
   transform: translateY(-2px);
   background-color: gainsboro;
 }
-.search__buttons{
+/* .search__buttons{
   margin: 5px;
   display: flex;
   gap: 10px;
@@ -221,5 +206,5 @@ export default defineComponent({
   opacity: 0.3;
   background-color: #0eba81;
   pointer-events: none;
-}
+} */
 </style>

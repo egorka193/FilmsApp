@@ -169,6 +169,8 @@ export default defineComponent({
   background-color: gainsboro;
 }
 .lists__name{
+  font-size: 25px;
+  font-weight: 700;
   margin-bottom: 20px;
 }
 .list__name{

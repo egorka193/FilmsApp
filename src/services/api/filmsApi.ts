@@ -31,9 +31,8 @@ export interface FilmShort {
 
 const popularQueries = ['tt18689424', 'tt4154796', 'tt0372784', 'tt0133093', 'tt1877830'];
 
-export const getPopularFromOMDb = async () => {
+export const getPopularFilms = async () => {
   const results = await getFilmsByIds(popularQueries);
-  console.log(results);
   return results;
 };
 

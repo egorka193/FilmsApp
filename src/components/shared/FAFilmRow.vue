@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { defineComponent, type PropType} from 'vue';
-import FASelect from '@/components/shared/FASelect.vue';
+import FASelect from '@/components/shared/FASelectLists.vue';
 import type { List } from '@/services/api/types';
 
 export default defineComponent({
