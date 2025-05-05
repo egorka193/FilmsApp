@@ -1,7 +1,6 @@
 import { fakeApiRequest, getNewId } from '@/services/utils';
 import { type List, LocalStorageKeys, favoriteList } from './types';
 import { newList } from './types';
-// import type { FilmShort } from './filmsApi';
 
 const getListsFromLs = () => {
   let lsResults = localStorage.getItem(LocalStorageKeys.lists);
@@ -16,7 +15,7 @@ const getListsFromLs = () => {
   }
   return defaultLists;
 };
-const seListsInLs = (lists: List[]) => {
+const setListsInLs = (lists: List[]) => {
   localStorage.setItem(LocalStorageKeys.lists, JSON.stringify(lists)); 
 };
 
@@ -28,13 +27,13 @@ export const updateListApi = (value: List) => {
   const updateLists = lsResults.map((item) => {
     return item.id === value.id ? value : item;
   });
-  seListsInLs(updateLists);
+  setListsInLs(updateLists);
   return fakeApiRequest(null);
 };
 export const deleteListApi = (id: number) => {
   const lsResults = getListsFromLs();
   const filteredResults = lsResults.filter((item: List) => item.id !== id);
-  seListsInLs(filteredResults);
+  setListsInLs(filteredResults);
   return fakeApiRequest(null);
 };
 
@@ -43,14 +42,6 @@ export const createList = (name: string): Promise<List> => {
   const lists = getListsFromLs();
   newList.id = getNewId(lists.map(list => list.id));
   const updatedLists = [...lists, newList];
-  seListsInLs(updatedLists);
+  setListsInLs(updatedLists);
   return fakeApiRequest(newList);
 };
-// export const addFilmInList = (list: List, film: FilmShort) => {
-//   const listsInLs = localStorage.getItem(LocalStorageKeys.lists);
-//   const addingList = JSON.parse(listsInLs).filter((item) => item.name === list.name)[0];
-//   console.log(addingList);
-//   addingList.filmsIds.push(film);
-//   console.log(addingList);
-  
-// };

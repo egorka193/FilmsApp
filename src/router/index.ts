@@ -8,17 +8,17 @@ const router = createRouter({
       name: RoutesNames.Home,
       path: '/home',
       alias: ['/'],
-      component: () => import('@/components/views/HomePade.vue'),
+      component: () => import('@/components/views/HomePage.vue'),
     },
     {
       name: RoutesNames.Search,
       path: '/search',
-      component: () => import('@/components/views/SearchPage.vue'),
+      component: () => import('@/components/views/SearchPage/SearchPage.vue'),
     },
     {
       name: RoutesNames.Lists,
       path: '/lists',
-      component: () => import('@/components/views/ListsPage.vue'),
+      component: () => import('@/components/views/ListsPage/ListsPage.vue'),
     },
     {
       name: RoutesNames.Profile,

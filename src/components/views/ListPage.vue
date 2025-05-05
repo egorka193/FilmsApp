@@ -4,19 +4,18 @@
       Loading......
     </div>
     <div v-else-if="!listInfo">
-      uncorrect url
+      {{`There is not list with ID: ${id}`}}
     </div>
     <template v-else-if="listInfo">
       <h2 class="list-page__name">
         {{ listInfo.name }}
       </h2>
 
-      <template v-if="listInfo.filmsIds.length">
-        <FAFilmCardList 
-          :ids="listInfo.filmsIds"
-          @deleteFilm="(id) => deleteFilmInList(id, listInfo)"
-        />
-      </template>
+      <FAFilmCardList 
+        v-if="listInfo.filmsIds.length"
+        :ids="listInfo.filmsIds"
+        @deleteFilm="(id) => deleteFilmInList(id, listInfo)"
+      />
 
       <p v-else>
         Фильмы не добавлены.
@@ -27,7 +26,7 @@
 
 <script lang="ts">
 import type { List } from '@/services/api/types';
-import FAFilmCardList from '@/components/shared/FAFilmCardList.vue';
+import FAFilmCardList from '@/components/features/FilmCardList.vue';
 import type { State } from '@/store/store';
 import { computed, defineComponent} from 'vue';
 import { useStore } from 'vuex';
@@ -50,7 +49,6 @@ export default defineComponent({
       if (listInfo) {
         listInfo.filmsIds =  listInfo?.filmsIds.filter((item) => item !== id);
       }
-      console.log('delete', listInfo);
       await store.dispatch('updateList', listInfo);
     };
 

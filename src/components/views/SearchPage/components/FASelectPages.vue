@@ -1,23 +1,22 @@
-
 <template>
-  <div>
+  <div class="select-pages">
     <button 
-      :class="['search__button', number === 1 ? 'search__button-disabled' : '']"
-      @click="prev(1, number)"
+      :class="['search__button', numberPage === 1 ? 'search__button-disabled' : '']"
+      @click="prev(1, numberPage)"
     >
       ←
     </button>
     <button
       v-for="item in visiblePages"
       :key="item"
-      :class="['search__button', item === number || item === '...'? 'search__button-disabled' : '']"
+      :class="['search__button', item === numberPage || item === '...'? 'search__button-disabled' : '']"
       @click="typeof item === 'number' && loadPage(item)"
     >
       {{ item }}
     </button>
     <button 
-      :class="['search__button', number === totalPage ? 'search__button-disabled' : '']"
-      @click="next(1, number)"
+      :class="['search__button', numberPage === totalPage ? 'search__button-disabled' : '']"
+      @click="next(1, numberPage)"
     >
       →
     </button>
@@ -29,7 +28,7 @@ import { computed, defineComponent } from 'vue';
 
 export default defineComponent({
   props: {
-    number: {
+    numberPage: {
       type: Number,
       required: true,
     },
@@ -42,7 +41,7 @@ export default defineComponent({
   setup(props, ctx) {
     const visiblePages = computed(() => {
       const total = props.totalPage;
-      const current = props.number;
+      const current = props.numberPage;
       const delta = 1;
       
 
@@ -55,7 +54,6 @@ export default defineComponent({
 
         if (current === 4){
           for (let i = 2; i < current; i++){
-            console.log(range);
             if(!range.includes(i)){
               range.push(i);
             }
@@ -81,7 +79,6 @@ export default defineComponent({
 
         range.push(total);
       }
-      console.log(range);
       
       return range;
     });
@@ -128,7 +125,6 @@ export default defineComponent({
 }
 .search__button-disabled{
   opacity: 0.3;
-  background-color: #0eba81;
   pointer-events: none;
 }
 </style>

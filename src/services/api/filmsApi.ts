@@ -1,3 +1,4 @@
+import type { FilmInformation, FilmShort } from '@/router/types';
 import axios from 'axios';
 
 const apiKey = '3a523c11';
@@ -6,27 +7,6 @@ interface SearchResponse {
   Response: string;
   totalResults: string; // number in string
   Search: FilmShort[];
-};
-export interface FilmInformation {
-  imdbID: string;
-  Title: string;
-  Actors: string;
-  Country: string; 
-  Plot: string;
-  Poster: string;
-  Rated: string;
-  Runtime: string;
-  Writer: string;
-  Year: string;
-  imdbRating: string;
-  Genre: string;
-};
-export interface FilmShort {
-  Poster: string;
-  Title: string;
-  Type: string;
-  Year: string;
-  imdbID: string;
 };
 
 const popularQueries = ['tt18689424', 'tt4154796', 'tt0372784', 'tt0133093', 'tt1877830'];

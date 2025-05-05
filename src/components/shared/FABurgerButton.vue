@@ -1,6 +1,6 @@
 <template>
   <button 
-    class="btn"
+    class="burger-button"
     @click="handleClick()"
   >
     <i class="pi pi-bars" />
@@ -37,6 +37,17 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.burger-button{
+  border: none;
+  border-radius: 30%;
+  cursor: pointer;
+  padding: 5px;
+  transition: all 0.5s ease-in-out;
+  background-color: rgb(154, 166, 167);
+}
+.burger-button:hover{
+  background-color: rgb(192, 207, 208);
 }
 
 </style>

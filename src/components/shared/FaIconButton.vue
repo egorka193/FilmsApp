@@ -1,5 +1,5 @@
 <template>
-  <button class="button">
+  <button class="icon-button">
     <i 
       class="pi"
       :class="icon"
@@ -29,15 +29,15 @@ i{
   align-items: center;
   justify-content: center;
 }
-.button{
-  background-color: var(--background-color);
+.icon-button{
+  background-color: rgb(154, 166, 167);
   border: none;
   border-radius: 30%;
   cursor: pointer;
   padding: 5px;
   transition: all 0.5s ease-in-out;
 }
-.button:hover{
-  background-color: var(--background-color-hover)
+.icon-button:hover{
+  background-color: rgb(192, 207, 208);
 }
 </style>

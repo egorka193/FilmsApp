@@ -1,9 +1,9 @@
 <template>
-  <div class="home-pade">
-    <p class="home-pade__title">
+  <div class="home-page">
+    <p class="home-page__title">
       Popular Films
     </p>
-    <div class="home-pade__films">
+    <div class="home-page__films">
       <div v-if="popularFilms.length === 0">
         Loading.......
       </div>
@@ -11,7 +11,7 @@
         <div
           v-for="film in popularFilms"
           :key="film.imdbID"
-          class="home-pade__film"
+          class="home-page__film"
         >
           <FAFilmCard
             :id="film.imdbID"
@@ -27,8 +27,9 @@
 </template>
 
 <script lang="ts">
-import FAFilmCard from '@/components/shared/FAFilmCard.vue';
-import { getPopularFilms, type FilmInformation } from '@/services/api/filmsApi';
+import FAFilmCard from '@/components/features/FilmCard.vue';
+import type { FilmInformation } from '@/router/types';
+import { getPopularFilms } from '@/services/api/filmsApi';
 import { defineComponent, onMounted, ref } from 'vue';
 
 export default defineComponent({
@@ -40,7 +41,6 @@ export default defineComponent({
 
       onMounted(async () => {
         popularFilms.value = await getPopularFilms();
-        console.log(popularFilms.value);
       });
 
       return{
@@ -51,7 +51,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.home-pade__title{
+.home-page__title{
   font-size: 25px;
   font-weight: 700;
 }
@@ -59,14 +59,14 @@ export default defineComponent({
   width: 50px;
   height: 50px;
 }
-.home-pade__films{
+.home-page__films{
   padding: 10px;
   display: flex;
   gap: 30px;
   justify-content: flex-start;
   flex-wrap: wrap;
 }
-.home-pade__film{
+.home-page__film{
   cursor: pointer;
   padding: 10px;
   border: 1px solid black;
@@ -74,7 +74,7 @@ export default defineComponent({
   margin-bottom: 20px;
   transition: all 0.5s ease-in-out;
 }
-.home-pade__film:hover{
+.home-page__film:hover{
   transform: translateY(-5px);
   background-color: gainsboro;
 }

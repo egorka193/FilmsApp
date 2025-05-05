@@ -1,9 +1,9 @@
 import { createStore } from 'vuex';
 import type { List } from '@/services/api/types';
 import { createList, deleteListApi, getLists, updateListApi } from '@/services/api/listsApi';
-import { getFilmsByIds, type FilmInformation } from '@/services/api/filmsApi';
+import { getFilmsByIds } from '@/services/api/filmsApi';
+import type { FilmInformation } from '@/router/types';
 
-// define your typings for the store state
 export interface State {
   lists: List[];
   films: FilmInformation[]; 

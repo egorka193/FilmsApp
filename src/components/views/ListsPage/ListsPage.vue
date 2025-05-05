@@ -31,7 +31,7 @@
           <FAButton 
             icon="pi-trash"
             :class="[list.isSystem === true ? 'disabled' : '']"
-            @click.stop="handleClick(list.id)"
+            @click.stop="handleDelete(list.id)"
           />
           <FAButton 
             icon="pi-pencil"
@@ -43,18 +43,18 @@
     </template>
     <ModalListAdd
       :visible="isAdding"
-      @close="closeAdd"
+      @close="closeModalAdd"
       @handleClick="(value) => addListToApi(value)"
     />
     <ModalListEditor
       :list="editingList"
-      @close="closeEditor"
+      @close="closeModalEdit"
       @rename="(id, value) => renameList(id, value)"
     />
     <ModalListDelete
       :list="deletingList"
-      @close="closeDeleted"
-      @reject="closeDeleted"
+      @close="closeModalDelete"
+      @reject="closeModalDelete"
       @confirm="(id) => deleteList(id)"
     />
   </div>
@@ -64,15 +64,14 @@
 import { computed, defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { RoutesNames } from '@/router/types';
-import ModalListAdd from '@/components/layouts/ModalListAdd.vue';
+import ModalListAdd from '@/components/views/ListsPage/components/ModalListAdd.vue';
 import { LocalStorageKeys } from '@/services/api/types';
 import type { List } from '@/services/api/types';
-import ModalListEditor from '@/components/layouts/ModalListEditor.vue';
-import ModalListDelete from '@/components/layouts/ModalListDelete.vue';
-import FAButton from '@/components/shared/FAButton.vue';
+import ModalListEditor from '@/components/views/ListsPage/components/ModalListEditor.vue';
+import ModalListDelete from '@/components/views/ListsPage/components/ModalListDelete.vue';
+import FAButton from '@/components/shared/FaIconButton.vue';
 import { useStore } from 'vuex';
 import type { State } from '@/store/store';
-
 
 export default defineComponent({
   components: {
@@ -87,7 +86,6 @@ export default defineComponent({
     const isLoading = computed(() => store.state.isListsLoading);
     const editingList = ref<List | undefined>();
     const deletingList = ref<List | undefined>();
-    const listId = ref(0);
     const isAdding = ref(false);
     const router = useRouter();
 
@@ -98,7 +96,7 @@ export default defineComponent({
       await store.dispatch('addList', value);
       isAdding.value = false;
     };
-    const handleClick = (id: number) => {
+    const handleDelete = (id: number) => {
       deletingList.value = lists.value.filter((list) => list.id === id)[0];
     };
     const handleEdit = (id: number) => {
@@ -107,24 +105,24 @@ export default defineComponent({
     const addList = () => {
       isAdding.value = true;
     };
-    const closeEditor = () => {
+    const closeModalEdit = () => {
       editingList.value = undefined;
     };
-    const closeAdd = () => {
+    const closeModalAdd = () => {
       isAdding.value = false;
     };
-    const closeDeleted = () => {
+    const closeModalDelete = () => {
       deletingList.value = undefined;
     };
     const renameList = async (id: number, value: string) => {
       const result = lists.value.filter((item) => item.id === id)[0];
       result.name = value;
       await store.dispatch('updateList', result);
-      closeEditor();
+      closeModalEdit();
     };
     const deleteList = async (id: number) => {
       await store.dispatch('deleteList', id);
-      closeDeleted();
+      closeModalDelete();
     };
 
     return{
@@ -132,16 +130,15 @@ export default defineComponent({
       lists,
       addList,
       isAdding,
-      closeEditor,
+      closeModalEdit,
       LocalStorageKeys,
       addListToApi,
       goToList,
       deleteList,
-      closeDeleted,
-      handleClick,
-      listId,
+      closeModalDelete,
+      handleDelete,
       handleEdit,
-      closeAdd,
+      closeModalAdd,
       renameList,
       editingList,
       deletingList,

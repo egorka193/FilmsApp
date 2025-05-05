@@ -13,7 +13,7 @@
         :title="film.Title" 
         :plot="film.Plot" 
         type="list"
-        @handleClick="(id) => deleteFilm(id)"
+        @handleDelete="(id) => deleteFilm(id)"
       />
     </div>
   </div>
@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, type PropType } from 'vue';
-import FAFilmCard from '@/components/shared/FAFilmCard.vue';
+import FAFilmCard from '@/components/features/FilmCard.vue';
 import { store } from '@/store/store';
 import { useRouter } from 'vue-router';
 
@@ -42,7 +42,6 @@ export default defineComponent({
       await router.push({ name: 'Film', params: { id } });
     };
     const deleteFilm = (id: string) => {
-      console.log('delete', id);
       ctx.emit('deleteFilm', id);
     };
 

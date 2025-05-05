@@ -24,12 +24,9 @@
       <div 
         v-for="film in results"
         :key="film.imdbID"
-        :to="{ name: 'Film', params: { id: film.imdbID } }"
         @click="goToFilm(film.imdbID)"
       >
-        <div
-          class="search__results-film"
-        >
+        <div class="search__results-film">
           <FAFilmRow
             :id="film.imdbID"
             :lists-options="lists"
@@ -42,8 +39,8 @@
       </div>
     </div>
     <FASelectPages
-      :number="numberPage"
-      :total-page="quantityPages"
+      :number-page="numberPage"
+      :total-page="pagesCount"
       :class="['search__buttons', results.length === 0 ? 'search__buttons-disabled' : '']"
       @prev="(num, numberPage) => goPrev(num, numberPage)"
       @next="(num, numberPage) => goNext(num, numberPage)"
@@ -53,15 +50,16 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import InputText from 'primevue/inputtext';
 import FAButton from 'primevue/button';
-import { searchFilms, type FilmShort } from '@/services/api/filmsApi';
-import FAFilmRow from '@/components/shared/FAFilmRow.vue';
+import { searchFilms } from '@/services/api/filmsApi';
+import FAFilmRow from '@/components/views/SearchPage/components/FAFilmRow.vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import type { State } from '@/store/store';
-import FASelectPages from '../shared/FASelectPages.vue';
+import FASelectPages from '@/components/views/SearchPage/components/FASelectPages.vue';
+import type { FilmShort } from '@/router/types';
 
 export default defineComponent({
   components: {
@@ -74,41 +72,16 @@ export default defineComponent({
     const router = useRouter();
     const store = useStore<State>();
     const lists = computed(() => store.state.lists);
-    const query = ref('Blade');
+    const query = ref();
     const results = ref<FilmShort[]>([]);
     const isLoading = ref(false);
     const numberPage = ref(0);
-    const quantityPages = ref(0);
-    // const visiblePages = computed(() => {
-    //   const total = quantityPages.value;
-    //   const current = numberPage.value;
-    //   const delta = 1;
-
-    //   const range: (number | string)[] = [];
-
-    //   if (total <= 7) {
-    //     for (let i = 1; i <= total; i++) range.push(i);
-    //   } else {
-    //     range.push(1);
-
-    //     if (current > 3) range.push('...');
-
-    //     const start = Math.max(2, current - delta);
-    //     const end = Math.min(total - 1, current + delta);
-    //     for (let i = start; i <= end; i++) range.push(i);
-
-    //     if (current < total - 2) range.push('...');
-
-    //     range.push(total);
-    //   }
-
-    //   return range;
-    // });
+    const pagesCount = ref(0);
 
     const goToFilm = async (id: string) => {
       await router.push({ name: 'Film', params: { id } });
     };
-    const countPages = (results: number) => {
+    const getPagesCount = (results: number) => {
       const pages = results/10;
       return Math.round(pages);
     };
@@ -126,15 +99,10 @@ export default defineComponent({
       results.value = [];
       const response = await searchFilms(query.value, page);
       results.value = response.Search;
-      quantityPages.value = countPages(+response.totalResults);
+      pagesCount.value = getPagesCount(+response.totalResults);
       isLoading.value = false;
       numberPage.value = page;
     };
-
-    onMounted(() => {
-      console.log(quantityPages.value);
-      
-    });
 
     return {
       query,
@@ -145,7 +113,7 @@ export default defineComponent({
       lists,
       loadAnotherPage,
       numberPage,
-      quantityPages,
+      pagesCount,
       goPrev,
       goNext,
     };
@@ -182,29 +150,4 @@ export default defineComponent({
   transform: translateY(-2px);
   background-color: gainsboro;
 }
-/* .search__buttons{
-  margin: 5px;
-  display: flex;
-  gap: 10px;
-  overflow: hidden;
-}
-.search__button{
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
-  border: none;
-  border-radius: 50%;
-  transition: all 0.5s ease-in-out;
-}
-.search__button:hover{
-  background-color: #0eba81;
-}
-.search__buttons-disabled{
-  display: none;
-}
-.search__button-disabled{
-  opacity: 0.3;
-  background-color: #0eba81;
-  pointer-events: none;
-} */
 </style>

@@ -66,11 +66,4 @@ export default defineComponent({
   display: flex;
   gap: 20px;
 }
-.film-row__select{
-  margin-bottom: 10px;
-}
-.film-row__button{
-  display: flex;
-  justify-content: center;
-}
 </style>

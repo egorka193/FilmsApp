@@ -10,7 +10,7 @@
         label="Cancel"
         text
         severity="secondary"
-        @click="reject"
+        @click="close"
       />
       <PrimeButton
         label="Delete"
@@ -47,9 +47,6 @@ export default defineComponent({
     const confirm = (id: number) => {
       ctx.emit('confirm', id);
     };
-    const reject = () => {
-      ctx.emit('reject');
-    };
 
     watch(
       () => props.list,
@@ -63,7 +60,6 @@ export default defineComponent({
     return {
       close,
       value,
-      reject,
       confirm,
     };
   },

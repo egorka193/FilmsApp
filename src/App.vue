@@ -37,8 +37,6 @@ export default defineComponent({
     
     onBeforeMount(async () => {
       await store.dispatch('initList');
-      console.log(store.state.lists);
-      
     });
     return {
       menuOpen,

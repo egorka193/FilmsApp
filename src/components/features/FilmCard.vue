@@ -11,7 +11,7 @@
         >
         <button
           class="pi pi-trash"
-          @click.stop="handleClick(id)"
+          @click.stop="handleDelete(id)"
         />
       </div>
       <div
@@ -24,10 +24,6 @@
         >
         <FASelect :current-film-id="id" />
       </div>
-      <!-- <img
-        class="film-card__img"
-        :src="poster"
-      > -->
       <h2>{{ `${title}` }}</h2>
       <p>{{ plot }}</p>
     </div>
@@ -36,7 +32,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import FASelect from './FASelectLists.vue';
+import FASelect from '@/components/shared/FASelectLists.vue';
 
 export default defineComponent({
   components: {
@@ -64,16 +60,14 @@ export default defineComponent({
       required: true,
     },
   },
+  emits: ['handleDelete'],
   setup(props, ctx) {
-    const handleClick = (id: string) => {
-      console.log(id);
-      
-      ctx.emit('handleClick', id);
+    const handleDelete = (id: string) => {
+      ctx.emit('handleDelete', id);
     };
 
-
     return {
-      handleClick,
+      handleDelete,
     };
   },
 });
@@ -85,10 +79,6 @@ export default defineComponent({
 }
 .film-card__img{
   height: 180px;
-}
-.sucses{
-  font-size: 60px;
-  font-weight: 700;
 }
 .film-card__btn{
   margin-bottom: 10px;
