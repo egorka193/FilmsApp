@@ -1,7 +1,7 @@
 <template>
   <div class="select-pages">
     <button 
-      :class="['search__button', numberPage === 1 ? 'search__button-disabled' : '']"
+      :class="['select-pages__button', numberPage === 1 ? 'select-pages__button-disabled' : '']"
       @click="prev(1, numberPage)"
     >
       ←
@@ -9,13 +9,13 @@
     <button
       v-for="item in visiblePages"
       :key="item"
-      :class="['search__button', item === numberPage || item === '...'? 'search__button-disabled' : '']"
+      :class="['select-pages__button', item === numberPage || item === '...'? 'select-pages__button-selected' : '']"
       @click="typeof item === 'number' && loadPage(item)"
     >
       {{ item }}
     </button>
     <button 
-      :class="['search__button', numberPage === totalPage ? 'search__button-disabled' : '']"
+      :class="['select-pages__button', numberPage === totalPage ? 'select-pages__button-disabled' : '']"
       @click="next(1, numberPage)"
     >
       →
@@ -103,13 +103,13 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.search__buttons{
+.select-pages{
   margin: 5px;
   display: flex;
   gap: 10px;
   overflow: hidden;
 }
-.search__button{
+.select-pages__button{
   cursor: pointer;
   width: 40px;
   height: 40px;
@@ -117,13 +117,18 @@ export default defineComponent({
   border-radius: 50%;
   transition: all 0.5s ease-in-out;
 }
-.search__button:hover{
+.select-pages__button:hover{
   background-color: #0eba81;
 }
-.search__buttons-disabled{
+.select-pages__buttons-disabled{
   display: none;
 }
-.search__button-disabled{
+.select-pages__button-disabled{
+  opacity: 0.3;
+  pointer-events: none;
+}
+.select-pages__button-selected{
+  background-color: #0eba81;
   opacity: 0.3;
   pointer-events: none;
 }

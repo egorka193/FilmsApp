@@ -28,8 +28,14 @@ export const store = createStore<State>({
         }
       });
     },
+    checkMovies(state, payload: string[]) {
+      const ids = state.films.map(item => item.imdbID);
+      const notIncludes = payload.filter(item => !ids.includes(item));
+      return notIncludes;
+    },
     addList(state, payload: List) {
-      state.lists.push(payload);
+      const newList = { ...payload };
+      state.lists.push(newList);
     },
     setIsListsLoading(state, payload: boolean) {
       state.isListsLoading = payload;
@@ -63,8 +69,18 @@ export const store = createStore<State>({
       context.commit('updateList', payload);
     },
     async getFilms(context, payload: string[]){
-      const response = await getFilmsByIds(payload);
-      context.commit('setFilms', response);
+      const idsInStore = context.state.films.filter(film =>
+        payload.includes(film.imdbID),
+      );
+      const missingIds = payload.filter(
+        id => !idsInStore.some(film => film.imdbID === id),
+      );
+      let response: FilmInformation[] = [];
+      if (missingIds.length > 0) {
+        response = await getFilmsByIds(missingIds);
+        context.commit('setFilms', response);
+      }
+      context.commit('setFilms', idsInStore);
     },
   },
 });

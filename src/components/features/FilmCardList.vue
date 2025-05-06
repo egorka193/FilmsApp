@@ -24,6 +24,8 @@ import { computed, defineComponent, onMounted, type PropType } from 'vue';
 import FAFilmCard from '@/components/features/FilmCard.vue';
 import { store } from '@/store/store';
 import { useRouter } from 'vue-router';
+import { RoutesNames } from '@/router/types';
+// import type { FilmInformation } from '@/router/types';
 
 export default defineComponent({
   components: {
@@ -39,7 +41,7 @@ export default defineComponent({
     const router = useRouter();
     const films = computed(() => store.state.films.filter(item => props.ids.includes(item.imdbID)));
     const goToList = async (id: string) => {
-      await router.push({ name: 'Film', params: { id } });
+      await router.push({ name: RoutesNames.Film, params: { id } });
     };
     const deleteFilm = (id: string) => {
       ctx.emit('deleteFilm', id);

@@ -41,9 +41,9 @@
     <FASelectPages
       :number-page="numberPage"
       :total-page="pagesCount"
-      :class="['search__buttons', results.length === 0 ? 'search__buttons-disabled' : '']"
-      @prev="(num, numberPage) => goPrev(num, numberPage)"
-      @next="(num, numberPage) => goNext(num, numberPage)"
+      :class="[results.length === 0 ? 'select-pages__buttons-disabled' : '']"
+      @prev="(num, page) => goPrev(num, page)"
+      @next="(num, page) => goNext(num, page)"
       @loadPage="(num) => loadAnotherPage(num)"
     />
   </div>
@@ -83,13 +83,13 @@ export default defineComponent({
     };
     const getPagesCount = (results: number) => {
       const pages = results/10;
-      return Math.round(pages);
+      return Math.ceil(pages);
     };
-    const goPrev = async (number: number, numberPage: number) => {
-      await onSearchClick(numberPage - number);
+    const goPrev = async (number: number, page: number) => {
+      await onSearchClick(page - number);
     };
-    const goNext = async (number: number, numberPage: number) => {
-      await onSearchClick(numberPage + number);
+    const goNext = async (number: number, page: number) => {
+      await onSearchClick(page + number);
     };
     const loadAnotherPage = async (page: number) => {
       await onSearchClick(page);

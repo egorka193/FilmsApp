@@ -3,7 +3,7 @@
     modal
     dismissable-mask
     :visible="visible"
-    :style="{ width: '500px' }"
+    :style="{ width: `${width}px` }"
     :header="header"
     @update:visible="close"
   >
@@ -23,6 +23,10 @@ export default defineComponent({
     PrimeDialog,
   },
   props: {
+    width: {
+      type: String,
+      default: '500',
+    },
     visible: {
       type: Boolean,
       default: false,

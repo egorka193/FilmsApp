@@ -4,7 +4,7 @@
       Loading......
     </div>
     <div v-else-if="!listInfo">
-      {{`There is not list with ID: ${id}`}}
+      {{ `There is not list with ID: ${id}` }}
     </div>
     <template v-else-if="listInfo">
       <h2 class="list-page__name">
