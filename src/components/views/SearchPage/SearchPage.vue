@@ -59,7 +59,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import type { State } from '@/store/store';
 import FASelectPages from '@/components/views/SearchPage/components/FASelectPages.vue';
-import type { FilmShort } from '@/router/types';
+import { RoutesNames, type FilmShort } from '@/router/types';
 
 export default defineComponent({
   components: {
@@ -79,7 +79,7 @@ export default defineComponent({
     const pagesCount = ref(0);
 
     const goToFilm = async (id: string) => {
-      await router.push({ name: 'Film', params: { id } });
+      await router.push({ name: RoutesNames.Film, params: { id } });
     };
     const getPagesCount = (results: number) => {
       const pages = results/10;

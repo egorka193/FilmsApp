@@ -33,20 +33,20 @@ import { getPopularFilms } from '@/services/api/filmsApi';
 import { defineComponent, onMounted, ref } from 'vue';
 
 export default defineComponent({
-    components:{
-      FAFilmCard,
-    },
-    setup() {
-      const popularFilms = ref<FilmInformation[]>([]);
+  components:{
+    FAFilmCard,
+  },
+  setup() {
+    const popularFilms = ref<FilmInformation[]>([]);
 
-      onMounted(async () => {
-        popularFilms.value = await getPopularFilms();
-      });
+    onMounted(async () => {
+      popularFilms.value = await getPopularFilms();
+    });
 
-      return{
-        popularFilms,
-      };
-    },
+    return{
+      popularFilms,
+    };
+  },
 });
 </script>
 

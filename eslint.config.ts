@@ -19,6 +19,7 @@ export default defineConfigWithVueTs(
       'comma-dangle': ['error', 'always-multiline'],
       'quotes': ['error', 'single'],
       'vue/multi-word-component-names': 'off',
+      'indent': ['error', 2],
     },
   },
   {
