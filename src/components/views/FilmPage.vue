@@ -34,11 +34,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 import { getFilmById } from '@/services/api/filmsApi';
 import FASelect from '@/components/shared/FASelectLists.vue';
-import { useStore } from 'vuex';
-import type { State } from '@/store/store';
 import type { FilmInformation } from '@/router/types';
 
 export default defineComponent({
@@ -52,8 +50,6 @@ export default defineComponent({
     },
   },
   setup (props) {
-    const store = useStore<State>();
-    const lists = computed(() => store.state.lists);
     const result = ref<FilmInformation | null>(null);
 
     onMounted( async() => {
@@ -61,7 +57,6 @@ export default defineComponent({
     });
     return {
       result,
-      lists,
     };
   },
 });

@@ -20,7 +20,7 @@ import FAheader from '@/components/layouts/Header.vue';
 import SideBar from '@/components/layouts/Sidebar.vue';
 import ContentContainer from '@/components/layouts/ContentContainer.vue';
 import { useStore } from 'vuex';
-import type { State } from './store/store';
+import type { ListsState } from './store/modules/lists';
 
 export default defineComponent({
   components: {
@@ -33,10 +33,10 @@ export default defineComponent({
     const toggleMenu = () => {
       menuOpen.value = !menuOpen.value;
     };
-    const store = useStore<State>();
+    const store = useStore<ListsState>();
     
     onBeforeMount(async () => {
-      await store.dispatch('initList');
+      await store.dispatch('lists/initList');
     });
     return {
       menuOpen,

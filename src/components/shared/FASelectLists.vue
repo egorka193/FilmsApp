@@ -33,7 +33,6 @@ import { defineComponent, computed, ref } from 'vue';
 import PrimeSelect from 'primevue/select';
 import type { List } from '@/services/api/types';
 import { useStore } from 'vuex';
-import type { State } from '@/store/store';
 
 export default defineComponent({
   components: {
@@ -46,8 +45,8 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const store = useStore<State>();
-    const options = computed(() => store.state.lists);
+    const store = useStore();
+    const options = computed<List[]>(() => store.state.lists.lists);
     const allFilmsIds = computed<string[]>(() => options.value.flatMap(list => list.filmsIds));
     const count = computed(() => {
       return allFilmsIds.value.filter((item) => item === props.currentFilmId).length;
@@ -60,7 +59,7 @@ export default defineComponent({
       } else {
         list.filmsIds = list.filmsIds.filter(id => id !== currentFilmId);
       }
-      await store.dispatch('updateList', list);
+      await store.dispatch('lists/updateList', list);
     };
   
     return {

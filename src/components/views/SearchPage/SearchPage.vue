@@ -57,7 +57,6 @@ import { searchFilms } from '@/services/api/filmsApi';
 import FAFilmRow from '@/components/views/SearchPage/components/FAFilmRow.vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import type { State } from '@/store/store';
 import FASelectPages from '@/components/views/SearchPage/components/FASelectPages.vue';
 import { RoutesNames, type FilmShort } from '@/router/types';
 
@@ -70,9 +69,9 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter();
-    const store = useStore<State>();
-    const lists = computed(() => store.state.lists);
-    const query = ref();
+    const store = useStore();
+    const lists = computed(() => store.state.lists.lists);
+    const query = ref('blade');
     const results = ref<FilmShort[]>([]);
     const isLoading = ref(false);
     const numberPage = ref(0);

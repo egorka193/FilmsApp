@@ -27,7 +27,6 @@
 <script lang="ts">
 import type { List } from '@/services/api/types';
 import FAFilmCardList from '@/components/features/FilmCardList.vue';
-import type { State } from '@/store/store';
 import { computed, defineComponent} from 'vue';
 import { useStore } from 'vuex';
 
@@ -42,14 +41,14 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const store = useStore<State>();
-    const listInfo = computed(() => store.state.lists.find((item) => item.id === +props.id));
+    const store = useStore();
+    const listInfo = computed<List>(() => store.state.lists.lists.find((item: List) => item.id === +props.id));
     const isLoading = computed(() => store.state.isListsLoading);
     const deleteFilmInList = async (id: string, listInfo: List | undefined) => {
       if (listInfo) {
         listInfo.filmsIds =  listInfo?.filmsIds.filter((item) => item !== id);
       }
-      await store.dispatch('updateList', listInfo);
+      await store.dispatch('lists/updateList', listInfo);
     };
 
     return {

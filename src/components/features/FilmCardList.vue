@@ -24,8 +24,7 @@ import { computed, defineComponent, onMounted, type PropType } from 'vue';
 import FAFilmCard from '@/components/features/FilmCard.vue';
 import { store } from '@/store/store';
 import { useRouter } from 'vue-router';
-import { RoutesNames } from '@/router/types';
-// import type { FilmInformation } from '@/router/types';
+import { RoutesNames, type FilmInformation } from '@/router/types';
 
 export default defineComponent({
   components: {
@@ -39,7 +38,7 @@ export default defineComponent({
   },
   setup(props, ctx) {
     const router = useRouter();
-    const films = computed(() => store.state.films.filter(item => props.ids.includes(item.imdbID)));
+    const films = computed<FilmInformation[]>(() => store.state.films.films.filter((item: FilmInformation) => props.ids.includes(item.imdbID)));
     const goToList = async (id: string) => {
       await router.push({ name: RoutesNames.Film, params: { id } });
     };
@@ -48,7 +47,7 @@ export default defineComponent({
     };
 
     onMounted(async () => {
-      await store.dispatch('getFilms', props.ids);
+      await store.dispatch('films/getFilms', props.ids);
     });
 
     return {

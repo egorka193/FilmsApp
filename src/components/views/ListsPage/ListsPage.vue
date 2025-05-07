@@ -71,7 +71,6 @@ import ModalListEditor from '@/components/views/ListsPage/components/ModalListEd
 import ModalListDelete from '@/components/views/ListsPage/components/ModalListDelete.vue';
 import FAButton from '@/components/shared/FaIconButton.vue';
 import { useStore } from 'vuex';
-import type { State } from '@/store/store';
 
 export default defineComponent({
   components: {
@@ -81,9 +80,9 @@ export default defineComponent({
     FAButton,
   },
   setup() {
-    const store = useStore<State>();
-    const lists = computed(() => store.state.lists);
-    const isLoading = computed(() => store.state.isListsLoading);
+    const store = useStore();
+    const lists = computed<List[]>(() => store.state.lists.lists);
+    const isLoading = computed(() => store.state.lists.isListsLoading);
     const editingList = ref<List | undefined>();
     const deletingList = ref<List | undefined>();
     const isAdding = ref(false);
@@ -93,7 +92,7 @@ export default defineComponent({
       await router.push({ name: RoutesNames.List, params: { id } });
     };
     const addListToApi = async (value: string) => {
-      await store.dispatch('addList', value);
+      await store.dispatch('lists/addList', value);
       isAdding.value = false;
     };
     const handleDelete = (id: number) => {
@@ -117,11 +116,11 @@ export default defineComponent({
     const renameList = async (id: number, value: string) => {
       const result = lists.value.filter((item) => item.id === id)[0];
       result.name = value;
-      await store.dispatch('updateList', result);
+      await store.dispatch('lists/updateList', result);
       closeModalEdit();
     };
     const deleteList = async (id: number) => {
-      await store.dispatch('deleteList', id);
+      await store.dispatch('lists/deleteList', id);
       closeModalDelete();
     };
 
