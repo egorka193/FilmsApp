@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { getFilmsByIds } from '@/services/api/filmsApi';
-import type { FilmInformation } from '@/router/types';
+import type { FilmInformation } from '@/services/api/types';
 import type { ActionContext } from 'vuex';
 
 export interface FilmsState {
@@ -35,7 +35,6 @@ export const filmsModule = {
         response = await getFilmsByIds(missingIds);
         context.commit('setFilms', response);
       }
-      context.commit('setFilms', idsInStore);
     },
   },
 };

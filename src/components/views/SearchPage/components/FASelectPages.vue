@@ -9,7 +9,10 @@
     <button
       v-for="item in visiblePages"
       :key="item"
-      :class="['select-pages__button', item === numberPage || item === '...'? 'select-pages__button-selected' : '']"
+      :class="['select-pages__button',
+               item === numberPage ? 'select-pages__button-selected' : '',
+               item === '...' ? 'select-pages__button-disabled' : ''
+      ]"
       @click="typeof item === 'number' && loadPage(item)"
     >
       {{ item }}
@@ -43,7 +46,6 @@ export default defineComponent({
       const total = props.totalPage;
       const current = props.numberPage;
       const delta = 1;
-      
 
       const range: (number | string)[] = [];
 
@@ -83,10 +85,10 @@ export default defineComponent({
       return range;
     });
     const next = (num : number, numberPage: number) => {
-      ctx.emit('next', num, numberPage);
+      ctx.emit('loadPage', numberPage + num);
     };
     const prev = (num : number, numberPage: number) => {
-      ctx.emit('prev', num, numberPage);
+      ctx.emit('loadPage', numberPage - num);
     };
     const loadPage = (item : number) => {
       ctx.emit('loadPage', item);

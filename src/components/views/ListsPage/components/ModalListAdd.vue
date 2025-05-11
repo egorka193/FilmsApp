@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import { InputText, Button as PrimeButton } from 'primevue';
 import FAModal from '@/components/shared/FAModal.vue';
 
@@ -55,15 +55,22 @@ export default defineComponent({
     const close = () => {
       ctx.emit('close');
     };
-    const handleClick = async () => {
+    const handleClick = () => {
       loading.value = true;
       if (value.value) {
         ctx.emit('handleClick', value.value);
       }
-      await new Promise(resolve => setTimeout(resolve, 1000));
       value.value = '';
-      loading.value = false;
     };
+    watch(
+      () => props.visible,
+      (newVal) => {
+        if(newVal === false){
+          loading.value = newVal;
+        }
+      },
+    );
+
 
     return {
       close,

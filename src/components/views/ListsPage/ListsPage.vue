@@ -8,7 +8,7 @@
         <FAButton 
           class="lists__header-btn"
           icon="pi-plus"
-          @click="addList"
+          @click="openModalAdd"
         >
           Add List
         </FAButton> 
@@ -31,12 +31,12 @@
           <FAButton 
             icon="pi-trash"
             :class="[list.isSystem === true ? 'disabled' : '']"
-            @click.stop="handleDelete(list.id)"
+            @click.stop="openModalDelete(list.id)"
           />
           <FAButton 
             icon="pi-pencil"
             :class="[list.isSystem === true ? 'disabled' : '']"
-            @click.stop="handleEdit(list.id)"
+            @click.stop="openModalEdit(list.id)"
           />
         </div>
       </div>
@@ -95,13 +95,13 @@ export default defineComponent({
       await store.dispatch('lists/addList', value);
       isAdding.value = false;
     };
-    const handleDelete = (id: number) => {
+    const openModalDelete = (id: number) => {
       deletingList.value = lists.value.filter((list) => list.id === id)[0];
     };
-    const handleEdit = (id: number) => {
+    const openModalEdit = (id: number) => {
       editingList.value = lists.value.filter((list) => list.id === id)[0];
     };
-    const addList = () => {
+    const openModalAdd = () => {
       isAdding.value = true;
     };
     const closeModalEdit = () => {
@@ -127,7 +127,7 @@ export default defineComponent({
     return{
       RoutesNames,
       lists,
-      addList,
+      openModalAdd,
       isAdding,
       closeModalEdit,
       LocalStorageKeys,
@@ -135,8 +135,8 @@ export default defineComponent({
       goToList,
       deleteList,
       closeModalDelete,
-      handleDelete,
-      handleEdit,
+      openModalDelete,
+      openModalEdit,
       closeModalAdd,
       renameList,
       editingList,

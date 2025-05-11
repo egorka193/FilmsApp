@@ -1,5 +1,6 @@
-import type { FilmInformation, FilmShort } from '@/router/types';
+
 import axios from 'axios';
+import type { FilmInformation, FilmShort } from './types';
 
 const apiKey = '3a523c11';
 

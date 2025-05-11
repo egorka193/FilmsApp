@@ -1,5 +1,5 @@
 <template>
-  <div :class="[ids.length > 4 ? 'film-card-list' : 'film-card-list__wrap']">
+  <div :class="[listInfo.filmsIds.length > 4 ? 'film-card-list' : 'film-card-list__wrap']">
     <div 
       v-for="film in films"
       :key="film.imdbID"
@@ -24,30 +24,35 @@ import { computed, defineComponent, onMounted, type PropType } from 'vue';
 import FAFilmCard from '@/components/features/FilmCard.vue';
 import { store } from '@/store/store';
 import { useRouter } from 'vue-router';
-import { RoutesNames, type FilmInformation } from '@/router/types';
+import { RoutesNames } from '@/router/types';
+import type { FilmInformation, List } from '@/services/api/types';
 
 export default defineComponent({
   components: {
     FAFilmCard,
   },
   props: {
-    ids: {
-      type: Array as PropType<string[]>,
+    listInfo: {
+      type: Object as PropType<List>,
       required: true,
     },
   },
-  setup(props, ctx) {
+  setup(props) {
     const router = useRouter();
-    const films = computed<FilmInformation[]>(() => store.state.films.films.filter((item: FilmInformation) => props.ids.includes(item.imdbID)));
+    const films = computed<FilmInformation[]>(() => store.state.films.films.filter((item: FilmInformation) => props.listInfo.filmsIds.includes(item.imdbID)));
+    const updatedList = props.listInfo;
     const goToList = async (id: string) => {
       await router.push({ name: RoutesNames.Film, params: { id } });
     };
-    const deleteFilm = (id: string) => {
-      ctx.emit('deleteFilm', id);
+    const deleteFilm = async (id: string) => {
+      console.log(props.listInfo);
+      updatedList.filmsIds = props.listInfo.filmsIds.filter(item => item !== id);
+      console.log(updatedList);
+      await store.dispatch('lists/updateList', updatedList);
     };
 
     onMounted(async () => {
-      await store.dispatch('films/getFilms', props.ids);
+      await store.dispatch('films/getFilms', props.listInfo.filmsIds);
     });
 
     return {

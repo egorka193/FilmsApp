@@ -28,8 +28,8 @@
 
 <script lang="ts">
 import FAFilmCard from '@/components/features/FilmCard.vue';
-import type { FilmInformation } from '@/router/types';
 import { getPopularFilms } from '@/services/api/filmsApi';
+import type { FilmInformation } from '@/services/api/types';
 import { defineComponent, onMounted, ref } from 'vue';
 
 export default defineComponent({

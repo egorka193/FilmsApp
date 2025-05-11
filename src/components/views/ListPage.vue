@@ -13,8 +13,7 @@
 
       <FAFilmCardList 
         v-if="listInfo.filmsIds.length"
-        :ids="listInfo.filmsIds"
-        @deleteFilm="(id) => deleteFilmInList(id, listInfo)"
+        :list-info="listInfo"
       />
 
       <p v-else>
@@ -44,17 +43,10 @@ export default defineComponent({
     const store = useStore();
     const listInfo = computed<List>(() => store.state.lists.lists.find((item: List) => item.id === +props.id));
     const isLoading = computed(() => store.state.isListsLoading);
-    const deleteFilmInList = async (id: string, listInfo: List | undefined) => {
-      if (listInfo) {
-        listInfo.filmsIds =  listInfo?.filmsIds.filter((item) => item !== id);
-      }
-      await store.dispatch('lists/updateList', listInfo);
-    };
 
     return {
       listInfo,
       isLoading,
-      deleteFilmInList,
     };
   },
 });

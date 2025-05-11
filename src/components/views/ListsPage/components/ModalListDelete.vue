@@ -40,7 +40,7 @@ export default defineComponent({
       default: undefined,
     },
   },
-  emits: ['close', 'reject', 'confirm'],
+  emits: ['close', 'confirm'],
   setup(props, ctx) {
     const loading = ref(false);
     const value = ref<List | undefined>();

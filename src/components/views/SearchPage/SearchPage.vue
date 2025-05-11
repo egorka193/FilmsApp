@@ -8,6 +8,7 @@
         v-model="query"
         class="search__input"
         variant="filled"
+        placeholder="what film?"
       />
       <FAButton
         label="Search"
@@ -42,8 +43,6 @@
       :number-page="numberPage"
       :total-page="pagesCount"
       :class="[results.length === 0 ? 'select-pages__buttons-disabled' : '']"
-      @prev="(num, page) => goPrev(num, page)"
-      @next="(num, page) => goNext(num, page)"
       @loadPage="(num) => loadAnotherPage(num)"
     />
   </div>
@@ -58,7 +57,8 @@ import FAFilmRow from '@/components/views/SearchPage/components/FAFilmRow.vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import FASelectPages from '@/components/views/SearchPage/components/FASelectPages.vue';
-import { RoutesNames, type FilmShort } from '@/router/types';
+import { RoutesNames } from '@/router/types';
+import type { FilmShort } from '@/services/api/types';
 
 export default defineComponent({
   components: {
@@ -71,7 +71,7 @@ export default defineComponent({
     const router = useRouter();
     const store = useStore();
     const lists = computed(() => store.state.lists.lists);
-    const query = ref('blade');
+    const query = ref();
     const results = ref<FilmShort[]>([]);
     const isLoading = ref(false);
     const numberPage = ref(0);

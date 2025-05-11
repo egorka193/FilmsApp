@@ -1,5 +1,5 @@
 <template>
-  <button class="icon-button">
+  <button class="fa-icon-button">
     <i 
       class="pi"
       :class="icon"
@@ -29,7 +29,7 @@ i{
   align-items: center;
   justify-content: center;
 }
-.icon-button{
+.fa-icon-button{
   background-color: rgb(154, 166, 167);
   border: none;
   border-radius: 30%;
@@ -37,7 +37,7 @@ i{
   padding: 5px;
   transition: all 0.5s ease-in-out;
 }
-.icon-button:hover{
+.fa-icon-button:hover{
   background-color: rgb(192, 207, 208);
 }
 </style>
