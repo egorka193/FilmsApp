@@ -14,6 +14,8 @@
       />
       <PrimeButton
         label="Delete"
+        :loading="loading"
+        :disabled="loading"
         severity="primary"
         @click="confirm(value!.id)"
       /> 
@@ -40,12 +42,16 @@ export default defineComponent({
   },
   emits: ['close', 'reject', 'confirm'],
   setup(props, ctx) {
+    const loading = ref(false);
     const value = ref<List | undefined>();
     const close = () => {
       ctx.emit('close');
     };
-    const confirm = (id: number) => {
+    const confirm = async (id: number) => {
+      loading.value = true;
       ctx.emit('confirm', id);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      loading.value = false;
     };
 
     watch(
@@ -61,6 +67,7 @@ export default defineComponent({
       close,
       value,
       confirm,
+      loading,
     };
   },
 });

@@ -22,6 +22,8 @@
       />
       <PrimeButton
         label="Rename"
+        :loading="loading"
+        :disabled="loading"
         severity="primary"
         @click="rename(list!.id, value)"
       /> 
@@ -51,11 +53,15 @@ export default defineComponent({
   emits: ['close', 'rename'],
   setup(props, ctx) {
     const value = ref('');
+    const loading = ref(false);
     const close = () => {
       ctx.emit('close');
     };
-    const rename = (id: number, value: string) => {
+    const rename = async (id: number, value: string) => {
+      loading.value = true;
       ctx.emit('rename', id, value);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      loading.value = false;
     };
 
     watch(
@@ -71,6 +77,7 @@ export default defineComponent({
       close,
       value,
       rename,
+      loading,
     };
   },
 });

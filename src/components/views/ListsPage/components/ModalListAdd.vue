@@ -22,6 +22,8 @@
       />
       <PrimeButton
         label="Add"
+        :loading="loading"
+        :disabled="loading || value === ''"
         severity="primary"
         @click="handleClick"
       /> 
@@ -49,20 +51,25 @@ export default defineComponent({
   emits: ['close', 'handleClick'],
   setup(props, ctx) {
     const value = ref('');
+    const loading = ref(false);
     const close = () => {
       ctx.emit('close');
     };
-    const handleClick = () => {
+    const handleClick = async () => {
+      loading.value = true;
       if (value.value) {
         ctx.emit('handleClick', value.value);
       }
+      await new Promise(resolve => setTimeout(resolve, 1000));
       value.value = '';
+      loading.value = false;
     };
 
     return {
       close,
       value,
       handleClick,
+      loading,
     };
   },
 });
@@ -71,5 +78,9 @@ export default defineComponent({
 <style scoped>
 .modal-content__input {
   width: 100%;
+}
+.disabled{
+  opacity: 0.3;
+  pointer-events: none;
 }
 </style>
