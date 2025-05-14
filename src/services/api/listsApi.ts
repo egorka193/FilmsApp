@@ -1,12 +1,6 @@
-import { type List, LocalStorageKeys, getFakeDelay, favoriteList } from './types';
-
-const fakeApiRequest = <T>(response: T): Promise<T> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(response);
-    }, getFakeDelay());
-  });
-};
+import { fakeApiRequest, getNewId } from '@/services/utils';
+import { type List, LocalStorageKeys, favoriteList } from './types';
+import { newList } from './types';
 
 const getListsFromLs = () => {
   let lsResults = localStorage.getItem(LocalStorageKeys.lists);
@@ -21,7 +15,33 @@ const getListsFromLs = () => {
   }
   return defaultLists;
 };
+const setListsInLs = (lists: List[]) => {
+  localStorage.setItem(LocalStorageKeys.lists, JSON.stringify(lists)); 
+};
 
 export const getLists = (): Promise<List[]> => {
   return fakeApiRequest(getListsFromLs());
+};
+export const updateListApi = (value: List) => {
+  const lsResults = getListsFromLs();
+  const updateLists = lsResults.map((item) => {
+    return item.id === value.id ? value : item;
+  });
+  setListsInLs(updateLists);
+  return fakeApiRequest(null);
+};
+export const deleteListApi = (id: number) => {
+  const lsResults = getListsFromLs();
+  const filteredResults = lsResults.filter((item: List) => item.id !== id);
+  setListsInLs(filteredResults);
+  return fakeApiRequest(null);
+};
+
+export const createList = (name: string): Promise<List> => {
+  newList.name = name;
+  const lists = getListsFromLs();
+  newList.id = getNewId(lists.map(list => list.id));
+  const updatedLists = [...lists, newList];
+  setListsInLs(updatedLists);
+  return fakeApiRequest(newList);
 };

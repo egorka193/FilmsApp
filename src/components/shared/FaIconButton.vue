@@ -1,9 +1,10 @@
 <template>
-  <button class="btn">
+  <button class="fa-icon-button">
     <i 
       class="pi"
       :class="icon"
     />
+    <slot />
   </button>
 </template>
 
@@ -27,5 +28,16 @@ i{
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.fa-icon-button{
+  background-color: rgb(154, 166, 167);
+  border: none;
+  border-radius: 30%;
+  cursor: pointer;
+  padding: 5px;
+  transition: all 0.5s ease-in-out;
+}
+.fa-icon-button:hover{
+  background-color: rgb(192, 207, 208);
 }
 </style>

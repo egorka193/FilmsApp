@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import FAButton from '@/components/shared/FAButton.vue';
+import FAButton from '@/components/shared/FaIconButton.vue';
 import FABurgerButton from '@/components/shared/FABurgerButton.vue';
 import { DARK_THEME_CLASS } from '@/constants';
 import { RoutesNames } from '@/router/types';
@@ -61,5 +61,4 @@ export default defineComponent({
   display: flex;
   gap: 15px;
 }
-
 </style>

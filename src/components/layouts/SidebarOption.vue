@@ -38,10 +38,10 @@ export default defineComponent({
   display: flex;
   gap: 10px;
   padding: 15px;
+  transition: all 0.7s ease-in-out;
 }
 .sidebar-option:hover{
   background-color: aqua;
-  transition: all 0.5s ease;
 }
 .sidebar-option i{
   display: flex;
