@@ -66,11 +66,10 @@ export default defineComponent({
       () => props.visible,
       (newVal) => {
         if(newVal === false){
-          loading.value = newVal;
+          loading.value = false;
         }
       },
     );
-
 
     return {
       close,

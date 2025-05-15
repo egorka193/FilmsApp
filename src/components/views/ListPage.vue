@@ -26,7 +26,7 @@
 <script lang="ts">
 import type { List } from '@/services/api/types';
 import FAFilmCardList from '@/components/features/FilmCardList.vue';
-import { computed, defineComponent} from 'vue';
+import { computed, defineComponent, onMounted} from 'vue';
 import { useStore } from 'vuex';
 
 export default defineComponent({
@@ -44,6 +44,11 @@ export default defineComponent({
     const listInfo = computed<List>(() => store.state.lists.lists.find((item: List) => item.id === +props.id));
     const isLoading = computed(() => store.state.isListsLoading);
 
+    onMounted(() => {
+      if (listInfo.value.name) {
+        document.title = `${listInfo.value.name} | FilmsApp`;
+      }
+    });
     return {
       listInfo,
       isLoading,

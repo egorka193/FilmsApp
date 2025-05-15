@@ -23,7 +23,7 @@
       <PrimeButton
         label="Rename"
         :loading="loading"
-        :disabled="loading"
+        :disabled="loading || value === ''"
         severity="primary"
         @click="rename(list!.id, value)"
       /> 
