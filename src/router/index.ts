@@ -26,7 +26,7 @@ const router = createRouter({
     {
       name: RoutesNames.Profile,
       path: '/profile',
-      component: () => import('@/components/views/ProfilePage.vue'),
+      component: () => import('@/components/views/ProfilePage/ProfilePage.vue'),
       meta: { title: 'Profile | FilmsApp' },
     },
     {

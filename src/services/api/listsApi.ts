@@ -1,5 +1,5 @@
 import { fakeApiRequest, getNewId } from '@/services/utils';
-import { type List, LocalStorageKeys, favoriteList } from './types';
+import { type List, LocalStorageKeys, type Profile, favoriteList, profileInfo } from './types';
 import { newList } from './types';
 
 const getListsFromLs = () => {
@@ -45,3 +45,23 @@ export const createList = (name: string): Promise<List> => {
   setListsInLs(updatedLists);
   return fakeApiRequest(newList);
 };
+export const saveProfileInfo = () => {
+  return fakeApiRequest(null);
+};
+export const updateProfile = async ( key: keyof Profile, value: string) => {
+  const lsResults = await getProfileInfoFromLs();
+  lsResults[key] = value;
+  localStorage.setItem(LocalStorageKeys.profile, JSON.stringify(lsResults));
+  return fakeApiRequest(lsResults);
+};
+export const getProfileInfoFromLs = () => {
+  if (!localStorage.getItem(LocalStorageKeys.profile)) {
+    const defaultProfile = JSON.stringify(profileInfo);
+    localStorage.setItem(LocalStorageKeys.profile, defaultProfile);
+  }
+  const lsResults = localStorage.getItem(LocalStorageKeys.profile);
+  const parseLsResults: Profile = JSON.parse(lsResults as string);
+
+  return fakeApiRequest(parseLsResults);
+};
+

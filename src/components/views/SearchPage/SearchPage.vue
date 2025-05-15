@@ -53,10 +53,10 @@ import { computed, defineComponent, ref } from 'vue';
 import InputText from 'primevue/inputtext';
 import FAButton from 'primevue/button';
 import { searchFilms } from '@/services/api/filmsApi';
-import FAFilmRow from '@/components/views/SearchPage/components/FAFilmRow.vue';
+import FAFilmRow from '@/components/views/SearchPage/components/FilmRow.vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import FASelectPages from '@/components/views/SearchPage/components/FASelectPages.vue';
+import FASelectPages from '@/components/views/SearchPage/components/SelectPages.vue';
 import { RoutesNames } from '@/router/types';
 import type { FilmShort } from '@/services/api/types';
 
