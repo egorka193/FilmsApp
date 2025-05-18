@@ -1,42 +1,40 @@
 <template>
-  <div class="profile__page">
-    <div class="profile__page__header">
+  <div class="profile-page">
+    <div class="profile-page__header">
       <div>
         <img
-          class="profile__page__img" 
+          class="profile-page__img" 
           src="/src/assets/img/Avatar.png"
         >
         <h2>
-          Contact Details:
+          Your profile:
         </h2>
       </div>
     </div>
-    <div 
-    class="profile__page__editor"
-    >
+    <div class="profile-page__editor">
       <ProfileInput
-        name-of-graph="First Name"
-        :text="profile.firstName"
+        label="First Name"
+        :value="profile.firstName"
         @handleInput="fieldChange('firstName', $event)"
       />
       <ProfileInput
-        name-of-graph="Last Name"
-        :text="profile.lastName"
+        label="Last Name"
+        :value="profile.lastName"
         @handleInput="fieldChange('lastName', $event)"
       />
       <ProfileInput
-        name-of-graph="Email"
-        :text="profile.email"
+        label="Email"
+        :value="profile.email"
         @handleInput="fieldChange('email', $event)"
       />
       <ProfileInput
-        name-of-graph="Phone Number"
-        :text="profile.phone"
+        label="Phone Number"
+        :value="profile.phone"
         @handleInput="fieldChange('phone', $event)"
       />
       <ProfileInput
-        name-of-graph="Nick Name"
-        :text="profile.nickName"
+        label="Nick Name"
+        :value="profile.nickName"
         @handleInput="fieldChange('nickName', $event)"
       />
     </div>
@@ -65,20 +63,23 @@ export default defineComponent({
   setup() {
     const store = useStore();
 
-    const profile = computed(() => store.state.profile.profile);
+    const profile = computed< Profile >(() => store.state.profile.profile);
     const isEditing = computed(() => store.state.profile.isEditing);
+    const formDraft = ref<Profile | null>(null);
     
-    const handleSave = () => {
-      store.dispatch('profile/saveChanges');
+    const handleSave = async () => {
+      await store.dispatch('profile/saveChanges', formDraft.value);
     };
 
-    const fieldChange = (key: keyof Profile, value: string) => {
-      console.log(key, value);
-      
-      store.dispatch('profile/updateField', { key, value });
+    const fieldChange = async (key: keyof Profile, value: string) => {
+      await store.dispatch('profile/changeGraph');
+      if (formDraft.value) {
+        formDraft.value[key] = value;
+      }
     };
     onMounted(async () => {
-      store.dispatch('profile/initProfile');
+      await store.dispatch('profile/initProfile');
+      formDraft.value = { ...profile.value };
     });
 
     return {
@@ -92,7 +93,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.profile__page {
+.profile-page {
   max-width: 1400px;
   margin: 40px auto;
   background-color: #fff;
@@ -101,14 +102,14 @@ export default defineComponent({
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   font-family: 'Segoe UI', sans-serif;
 }
-.profile__page__img {
+.profile-page__img {
   width: 80px;
   height: 80px;
   object-fit: cover;
   border-radius: 50%;
-  border: 3px solid #4f46e5; /* синий акцент */
+  border: 3px solid #4f46e5;
 }
-.profile__page__editor{
+.profile-page__editor{
   max-width: 1500px;
   border: 1px solid rgba(0, 0, 0, 0.08);
   padding: 10px;
@@ -117,11 +118,11 @@ export default defineComponent({
   gap: 30px;
   margin-bottom: 20px;
 }
-.profile__page__input{
+.profile-page__input{
   width: 400px;
   height: 50px;
 }
-.profile__page__header{
+.profile-page__header{
   display: flex;
   justify-content: space-between;
 }

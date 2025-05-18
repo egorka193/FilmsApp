@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getProfileInfoFromLs, saveProfileInfo, updateProfile } from '@/services/api/listsApi';
+import { getProfileInfoFromLs, saveProfileInfo } from '@/services/api/profileApi';
 import type { Profile } from '@/services/api/types';
 import type { ActionContext } from 'vuex';
 
@@ -21,8 +21,8 @@ export const profileModule = {
     isEditing: false,
   }),
   mutations: {
-    updateField(state: ProfileState) {
-      state.isEditing = true;
+    updateProfile(state: ProfileState, value: Profile) {
+      state.profile = value;
     },
     setEditing(state: ProfileState, value: boolean) {
       state.isEditing = value;
@@ -32,12 +32,9 @@ export const profileModule = {
     },
   },
   actions: {
-    async updateField({ commit }: ActionContext<ProfileState, any>, payload: { key: keyof Profile; value: string }) {
-      const result = await updateProfile(payload.key, payload.value);
-      commit('updateField', result);
-    },
-    async saveChanges({ commit }: any) {
-      await saveProfileInfo();
+    async saveChanges({ commit }: ActionContext<ProfileState, any>, payload: Profile) {
+      await saveProfileInfo(payload);
+      commit('updateProfile', payload);
       commit('setEditing', false);
     },
     async initProfile({ commit }: any) {
@@ -45,6 +42,9 @@ export const profileModule = {
       const profile = await getProfileInfoFromLs();
       commit('initProfile', profile);
       commit('setEditing', false);
+    },
+    changeGraph({ commit }: any) {
+      commit('setEditing', true);
     },
   },
 };

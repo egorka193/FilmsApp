@@ -50,9 +50,9 @@ export interface Profile {
   nickName: string;
 }
 export const profileInfo: Profile = {
-  firstName: 'Egor',
-  lastName: 'Kondratev',
-  email: 'Konratev.egor.2002@gmail.com',
-  phone: '89963944742',
-  nickName: 'Egor4ick/Pomidor4ick',
+  firstName: 'Igor',
+  lastName: 'Krivocapich',
+  email: 'Krivocapich.igor.1978@gmail.ru',
+  phone: '86994937424',
+  nickName: 'igor4ick/Pomidor4ick',
 };

@@ -45,9 +45,7 @@ export default defineComponent({
       await router.push({ name: RoutesNames.Film, params: { id } });
     };
     const deleteFilm = async (id: string) => {
-      console.log(props.listInfo);
       updatedList.filmsIds = props.listInfo.filmsIds.filter(item => item !== id);
-      console.log(updatedList);
       await store.dispatch('lists/updateList', updatedList);
     };
 
