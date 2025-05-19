@@ -1,5 +1,6 @@
 export enum LocalStorageKeys {
   lists = 'FaFakeApiLists',
+  profile = 'profileData',
 }
 
 export interface List {
@@ -40,4 +41,18 @@ export interface FilmShort {
   Type: string;
   Year: string;
   imdbID: string;
+};
+export interface Profile {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  nickName: string;
+}
+export const profileInfo: Profile = {
+  firstName: 'Igor',
+  lastName: 'Krivocapich',
+  email: 'Krivocapich.igor.1978@gmail.ru',
+  phone: '86994937424',
+  nickName: 'igor4ick/Pomidor4ick',
 };
