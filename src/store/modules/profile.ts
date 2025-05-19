@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getProfileInfoFromLs, saveProfileInfo } from '@/services/api/profileApi';
+import { compareProfile, getProfileInfoFromLs, saveProfileInfo } from '@/services/api/profileApi';
 import type { Profile } from '@/services/api/types';
 import type { ActionContext } from 'vuex';
 
@@ -43,8 +43,13 @@ export const profileModule = {
       commit('initProfile', profile);
       commit('setEditing', false);
     },
-    changeGraph({ commit }: any) {
-      commit('setEditing', true);
+    changeGraph({ commit }: any, payload: object) {
+      const result = compareProfile(payload);
+      if(result){
+        commit('setEditing', false);
+      } else {
+        commit('setEditing', true);
+      }
     },
   },
 };

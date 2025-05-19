@@ -2,13 +2,13 @@
   <div class="profile-input">
     <label class="profile-input__text">
       {{ label }}:
-    </label>
-    <InputText
+      <InputText
       :modelValue="value"
-      class="profile__page__input"
+      class="profile-page__input"
       variant="filled"
       @update:modelValue="handleInput"
-    />
+      />
+    </label>
   </div>
 </template>
 
@@ -43,8 +43,8 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.profile__page__input{
-  width: 400px;
+.profile-page__input{
+  width: 100%;
   height: 50px;
 }
 .profile-input__text{

@@ -16,3 +16,11 @@ export const getProfileInfoFromLs = () => {
   const parsedProfile: Profile = JSON.parse(lsProfile);
   return fakeApiRequest(parsedProfile);
 };
+export const compareProfile = (payload: object) => {
+  const lsProfile = localStorage.getItem(LocalStorageKeys.profile);
+  if(lsProfile === JSON.stringify(payload)){
+    return true;
+  } else {
+    return false;
+  }
+};

@@ -72,10 +72,12 @@ export default defineComponent({
     };
 
     const fieldChange = async (key: keyof Profile, value: string) => {
-      await store.dispatch('profile/changeGraph');
       if (formDraft.value) {
         formDraft.value[key] = value;
       }
+      console.log(typeof formDraft.value);
+      
+      await store.dispatch('profile/changeGraph', formDraft.value);
     };
     onMounted(async () => {
       await store.dispatch('profile/initProfile');
@@ -117,10 +119,6 @@ export default defineComponent({
   flex-wrap: wrap;
   gap: 30px;
   margin-bottom: 20px;
-}
-.profile-page__input{
-  width: 400px;
-  height: 50px;
 }
 .profile-page__header{
   display: flex;
