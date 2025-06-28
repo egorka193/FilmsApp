@@ -40,7 +40,7 @@ export default defineComponent({
       required: true,
     },
   },
-  emits:['next', 'prev', 'loadPage'],
+  emits:['loadPage'],
   setup(props, ctx) {
     const visiblePages = computed(() => {
       const total = props.totalPage;

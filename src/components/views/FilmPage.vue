@@ -54,6 +54,9 @@ export default defineComponent({
 
     onMounted( async() => {
       result.value = await getFilmById(props.id);
+      if (result.value?.Title) {
+        document.title = `${result.value.Title} | FilmsApp`;
+      }
     });
     return {
       result,

@@ -1,5 +1,5 @@
 import { fakeApiRequest, getNewId } from '@/services/utils';
-import { type List, LocalStorageKeys, favoriteList } from './types';
+import { favoriteList, type List, LocalStorageKeys} from './types';
 import { newList } from './types';
 
 const getListsFromLs = () => {
@@ -45,3 +45,5 @@ export const createList = (name: string): Promise<List> => {
   setListsInLs(updatedLists);
   return fakeApiRequest(newList);
 };
+
+
