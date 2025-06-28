@@ -1,6 +1,6 @@
 # FilmsApp
 
-FilmsApp is pet project to practise with Vue.js, ts, vuex. As component framework was used [PrimeVue](https://primevue.org/)
+FilmsApp is pet project to practise with Vue.js, ts, vuex. As component framework was used [PrimeVue](https://primevue.org/).<br>
 For movies API was used [OMDb API](http://omdbapi.com/).
 
 ## Project Setup
